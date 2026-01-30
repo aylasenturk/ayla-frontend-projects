@@ -1,9 +1,9 @@
 @{
-    ViewData["Title"] = "Bilgi Kartlari";
+    ViewData["Title"] = "Bilgi Kartları";
 }
 
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">UI Bilesenleri /</span> Bilgi Kartlari
+    <span class="text-muted fw-light">UI Bileşenleri /</span> Bilgi Kartları
 </h4>
 
 <div class="row justify-content-center">
@@ -11,34 +11,34 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="bx bx-credit-card text-primary me-2"></i>Bilgi Kartlari
+                    <i class="bx bx-credit-card text-primary me-2"></i>Bilgi Kartları
                 </h5>
             </div>
             <div class="card-body text-center">
                 <!-- Kart -->
                 <div id="flashcard" class="card bg-light mb-4 cursor-pointer" style="min-height: 150px; cursor: pointer;"
                      role="button" tabindex="0" aria-live="polite"
-                     aria-label="Karti cevirmek icin tiklayin veya Enter tusuna basin">
+                     aria-label="Kartı çevirmek için tıklayın veya Enter tuşuna basın">
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        <span id="cardContent" class="h5 mb-0">Yukleniyor...</span>
+                        <span id="cardContent" class="h5 mb-0">Yükleniyor...</span>
                     </div>
                 </div>
 
                 <!-- Navigasyon -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <button class="btn btn-outline-primary" id="prevBtn" aria-label="Onceki kart">
+                    <button class="btn btn-outline-primary" id="prevBtn" aria-label="Önceki kart">
                         <i class="bx bx-chevron-left me-1"></i> Geri
                     </button>
                     <span id="progress" class="text-muted" aria-live="polite">1 / 5</span>
                     <button class="btn btn-outline-primary" id="nextBtn" aria-label="Sonraki kart">
-                        Ileri <i class="bx bx-chevron-right ms-1"></i>
+                        İleri <i class="bx bx-chevron-right ms-1"></i>
                     </button>
                 </div>
 
-                <!-- Ipucu -->
+                <!-- İpucu -->
                 <small class="text-muted">
                     <i class="bx bx-info-circle me-1"></i>
-                    Cevabi gormek icin karta tiklayin
+                    Cevabı görmek için karta tıklayın
                 </small>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <!-- Kart Listesi -->
         <div class="card mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="mb-0">Tum Kartlar</h6>
+                <h6 class="mb-0">Tüm Kartlar</h6>
                 <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addCardModal">
                     <i class="bx bx-plus"></i> Yeni Kart
                 </button>
@@ -75,11 +75,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="newAnswer" class="form-label">Cevap</label>
-                    <input type="text" class="form-control" id="newAnswer" placeholder="Cevabi girin">
+                    <input type="text" class="form-control" id="newAnswer" placeholder="Cevabı girin">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Iptal</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
                 <button type="button" class="btn btn-primary" onclick="addCard()">Ekle</button>
             </div>
         </div>
@@ -89,11 +89,11 @@
 @section PageScripts {
 <script>
     let cards = JSON.parse(localStorage.getItem('flashcards')) || [
-        { question: "HTML nedir?", answer: "Web sayfalarinin yapisini olusturur." },
-        { question: "CSS ne ise yarar?", answer: "Web sayfasinin tasarimini duzenler." },
-        { question: "JavaScript nedir?", answer: "Web sayfasina etkilesim katar." },
+        { question: "HTML nedir?", answer: "Web sayfalarının yapısını oluşturur." },
+        { question: "CSS ne işe yarar?", answer: "Web sayfasının tasarımını düzenler." },
+        { question: "JavaScript nedir?", answer: "Web sayfasına etkileşim katar." },
         { question: "DOM nedir?", answer: "Document Object Model - HTML belgelerinin programatik temsili." },
-        { question: "API nedir?", answer: "Application Programming Interface - Uygulamalar arasi iletisim arayuzu." }
+        { question: "API nedir?", answer: "Application Programming Interface - Uygulamalar arası iletişim arayüzü." }
     ];
 
     let index = 0;
@@ -112,7 +112,7 @@
 
     function renderCard() {
         if (cards.length === 0) {
-            cardContent.textContent = 'Henuz kart eklenmedi';
+            cardContent.textContent = 'Henüz kart eklenmedi';
             progress.textContent = '0 / 0';
             prevBtn.disabled = true;
             nextBtn.disabled = true;
@@ -124,7 +124,7 @@
         prevBtn.disabled = index === 0;
         nextBtn.disabled = index === cards.length - 1;
 
-        // Kart listesini guncelle
+        // Kart listesini güncelle
         renderCardList();
     }
 
@@ -138,7 +138,7 @@
                     <strong class="d-block">${card.question}</strong>
                     <small class="${i === index ? 'text-white-50' : 'text-muted'}">${card.answer}</small>
                 </div>
-                <button class="btn btn-sm btn-outline-danger ${i === index ? 'btn-outline-light' : ''}" onclick="deleteCard(${i})" aria-label="Karti sil">
+                <button class="btn btn-sm btn-outline-danger ${i === index ? 'btn-outline-light' : ''}" onclick="deleteCard(${i})" aria-label="Kartı sil">
                     <i class="bx bx-trash"></i>
                 </button>
             `;
@@ -194,7 +194,7 @@
             showAnswer = false;
             renderCard();
 
-            // Modal'i kapat ve formu temizle
+            // Modal'ı kapat ve formu temizle
             bootstrap.Modal.getInstance(document.getElementById('addCardModal')).hide();
             document.getElementById('newQuestion').value = '';
             document.getElementById('newAnswer').value = '';
@@ -202,7 +202,7 @@
     }
 
     function deleteCard(i) {
-        if (confirm('Bu karti silmek istediginizden emin misiniz?')) {
+        if (confirm('Bu kartı silmek istediğinizden emin misiniz?')) {
             cards.splice(i, 1);
             save();
             if (index >= cards.length) index = Math.max(0, cards.length - 1);
@@ -211,7 +211,7 @@
         }
     }
 
-    // Ilk render
+    // İlk render
     renderCard();
 </script>
 }

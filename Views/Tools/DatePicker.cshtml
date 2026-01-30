@@ -1,18 +1,18 @@
 @{
-    ViewData["Title"] = "Tarih Secici";
+    ViewData["Title"] = "Tarih Seçici";
 }
 
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Uretkenlik Araclari /</span> Tarih Secici
+    <span class="text-muted fw-light">Üretkenlik Araçları /</span> Tarih Seçici
 </h4>
 
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
         <div class="card">
             <div class="card-body">
-                <!-- Baslik ve Navigasyon -->
+                <!-- Başlık ve Navigasyon -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <button class="btn btn-sm btn-outline-primary" id="prevBtn" aria-label="Onceki ay">
+                    <button class="btn btn-sm btn-outline-primary" id="prevBtn" aria-label="Önceki ay">
                         <i class="bx bx-chevron-left"></i>
                     </button>
                     <h5 id="monthTitle" class="mb-0">Ocak 2025</h5>
@@ -21,37 +21,37 @@
                     </button>
                 </div>
 
-                <!-- Gun Isimleri -->
+                <!-- Gün İsimleri -->
                 <div class="d-grid mb-2" style="grid-template-columns: repeat(7, 1fr); text-align: center;">
                     <small class="text-muted fw-bold">Pzt</small>
                     <small class="text-muted fw-bold">Sal</small>
-                    <small class="text-muted fw-bold">Car</small>
+                    <small class="text-muted fw-bold">Çar</small>
                     <small class="text-muted fw-bold">Per</small>
                     <small class="text-muted fw-bold">Cum</small>
                     <small class="text-muted fw-bold">Cts</small>
                     <small class="text-muted fw-bold">Paz</small>
                 </div>
 
-                <!-- Gunler -->
+                <!-- Günler -->
                 <div id="daysGrid" class="d-grid" style="grid-template-columns: repeat(7, 1fr); text-align: center; gap: 2px;"
-                     role="grid" aria-label="Takvim gunleri">
+                     role="grid" aria-label="Takvim günleri">
                     <!-- JavaScript ile doldurulacak -->
                 </div>
             </div>
         </div>
 
-        <!-- Secilen Tarih -->
+        <!-- Seçilen Tarih -->
         <div class="card mt-4">
             <div class="card-body">
-                <h6 class="mb-2">Secilen Tarih:</h6>
+                <h6 class="mb-2">Seçilen Tarih:</h6>
                 <div id="selectedDate" class="h4 text-primary mb-0" aria-live="polite">-</div>
             </div>
         </div>
 
-        <!-- Tarih Formatlari -->
+        <!-- Tarih Formatları -->
         <div class="card mt-4">
             <div class="card-header">
-                <h6 class="mb-0">Tarih Formatlari</h6>
+                <h6 class="mb-0">Tarih Formatları</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -62,7 +62,7 @@
                                 <td id="formatISO" class="fw-bold">-</td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Turkce</td>
+                                <td class="text-muted">Türkçe</td>
                                 <td id="formatTR" class="fw-bold">-</td>
                             </tr>
                             <tr>
@@ -79,10 +79,10 @@
 
 @section PageScripts {
 <script>
-    const monthNames = ['Ocak', 'Subat', 'Mart', 'Nisan', 'Mayis', 'Haziran',
-                        'Temmuz', 'Agustos', 'Eylul', 'Ekim', 'Kasim', 'Aralik'];
+    const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+                        'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
-    const dayNames = ['Pazar', 'Pazartesi', 'Sali', 'Carsamba', 'Persembe', 'Cuma', 'Cumartesi'];
+    const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
 
     let currentDate = new Date();
     let selectedDate = new Date();
@@ -110,7 +110,7 @@
 
         daysGrid.innerHTML = '';
 
-        // Onceki ayin gunleri
+        // Önceki ayın günleri
         const prevMonthLastDay = new Date(year, month, 0).getDate();
         for (let i = startDay - 1; i >= 0; i--) {
             const div = document.createElement('div');
@@ -120,7 +120,7 @@
             daysGrid.appendChild(div);
         }
 
-        // Bu ayin gunleri
+        // Bu ayın günleri
         for (let day = 1; day <= lastDay.getDate(); day++) {
             const div = document.createElement('div');
             div.textContent = day;
@@ -129,13 +129,13 @@
             div.setAttribute('role', 'gridcell');
             div.setAttribute('tabindex', '0');
 
-            // Bugun
+            // Bugün
             const today = new Date();
             if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
                 div.classList.add('bg-label-info');
             }
 
-            // Secili gun
+            // Seçili gün
             if (selectedDate.getDate() === day &&
                 selectedDate.getMonth() === month &&
                 selectedDate.getFullYear() === year) {
@@ -164,7 +164,7 @@
             daysGrid.appendChild(div);
         }
 
-        // Sonraki ayin gunleri
+        // Sonraki ayın günleri
         const totalCells = startDay + lastDay.getDate();
         const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
         for (let i = 1; i <= remaining; i++) {
@@ -206,7 +206,7 @@
         renderCalendar();
     });
 
-    // Ilk render
+    // İlk render
     renderCalendar();
     updateSelectedDisplay();
 </script>

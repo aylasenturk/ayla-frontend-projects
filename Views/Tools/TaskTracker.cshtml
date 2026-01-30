@@ -1,9 +1,9 @@
 @{
-    ViewData["Title"] = "Gorev Takipcisi";
+    ViewData["Title"] = "Görev Takipçisi";
 }
 
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Uretkenlik Araclari /</span> Gorev Takipcisi
+    <span class="text-muted fw-light">Üretkenlik Araçları /</span> Görev Takipçisi
 </h4>
 
 <div class="row justify-content-center">
@@ -11,23 +11,23 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="bx bx-task text-primary me-2"></i>Gorev Takipcisi
+                    <i class="bx bx-task text-primary me-2"></i>Görev Takipçisi
                 </h5>
             </div>
             <div class="card-body">
-                <!-- Gorev Ekleme -->
+                <!-- Görev Ekleme -->
                 <div class="input-group mb-4">
                     <input type="text" class="form-control" id="taskInput"
-                           placeholder="Yeni gorev yaz..." aria-label="Yeni gorev">
-                    <button class="btn btn-primary" id="addBtn" aria-label="Gorev ekle">
+                           placeholder="Yeni görev yaz..." aria-label="Yeni görev">
+                    <button class="btn btn-primary" id="addBtn" aria-label="Görev ekle">
                         <i class="bx bx-plus"></i> Ekle
                     </button>
                 </div>
 
                 <!-- Filtreler -->
-                <div class="btn-group w-100 mb-4" role="group" aria-label="Gorev filtreleri">
+                <div class="btn-group w-100 mb-4" role="group" aria-label="Görev filtreleri">
                     <button type="button" class="btn btn-outline-primary active" data-filter="all" aria-pressed="true">
-                        Tumu
+                        Tümü
                     </button>
                     <button type="button" class="btn btn-outline-primary" data-filter="todo" aria-pressed="false">
                         Devam Eden
@@ -37,20 +37,20 @@
                     </button>
                 </div>
 
-                <!-- Gorev Listesi -->
-                <ul id="taskList" class="list-group" role="list" aria-live="polite" aria-label="Gorev listesi">
+                <!-- Görev Listesi -->
+                <ul id="taskList" class="list-group" role="list" aria-live="polite" aria-label="Görev listesi">
                     <!-- JavaScript ile doldurulacak -->
                 </ul>
 
-                <!-- Bos Liste Mesaji -->
+                <!-- Boş Liste Mesajı -->
                 <div id="emptyMessage" class="text-center text-muted py-4 d-none">
                     <i class="bx bx-clipboard bx-lg mb-2"></i>
-                    <p class="mb-0">Henuz gorev eklenmedi</p>
+                    <p class="mb-0">Henüz görev eklenmedi</p>
                 </div>
             </div>
         </div>
 
-        <!-- Istatistikler -->
+        <!-- İstatistikler -->
         <div class="card mt-4">
             <div class="card-body">
                 <div class="row text-center">
@@ -128,7 +128,7 @@
             const del = document.createElement('button');
             del.className = 'btn btn-sm btn-outline-danger';
             del.innerHTML = '<i class="bx bx-trash"></i>';
-            del.setAttribute('aria-label', 'Gorevi sil');
+            del.setAttribute('aria-label', 'Görevi sil');
             del.onclick = () => remove(i);
 
             li.appendChild(span);
@@ -185,7 +185,7 @@
         btn.addEventListener('click', () => setFilter(btn.dataset.filter));
     });
 
-    // Ilk render
+    // İlk render
     render();
 </script>
 }

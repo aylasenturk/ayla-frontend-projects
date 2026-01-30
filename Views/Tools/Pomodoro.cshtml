@@ -1,9 +1,9 @@
 @{
-    ViewData["Title"] = "Pomodoro Zamanlayici";
+    ViewData["Title"] = "Pomodoro Zamanlayıcı";
 }
 
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Uretkenlik Araclari /</span> Pomodoro Zamanlayici
+    <span class="text-muted fw-light">Üretkenlik Araçları /</span> Pomodoro Zamanlayıcı
 </h4>
 
 <div class="row justify-content-center">
@@ -15,27 +15,27 @@
                 </h5>
 
                 <!-- Mod Bilgisi -->
-                <div id="modeText" class="text-muted mb-3" aria-live="polite">Calisma Zamani</div>
+                <div id="modeText" class="text-muted mb-3" aria-live="polite">Çalışma Zamanı</div>
 
-                <!-- Geri Sayim -->
+                <!-- Geri Sayım -->
                 <div id="timer" class="display-1 fw-bold mb-4" style="font-family: 'Courier New', monospace;">25:00</div>
 
-                <!-- Kontrol Butonlari -->
+                <!-- Kontrol Butonları -->
                 <div class="d-flex gap-2 justify-content-center mb-4">
-                    <button class="btn btn-success" onclick="startTimer()" aria-label="Baslat">
-                        <i class="bx bx-play me-1"></i> Baslat
+                    <button class="btn btn-success" onclick="startTimer()" aria-label="Başlat">
+                        <i class="bx bx-play me-1"></i> Başlat
                     </button>
                     <button class="btn btn-warning" onclick="pauseTimer()" aria-label="Duraklat">
                         <i class="bx bx-pause me-1"></i> Duraklat
                     </button>
-                    <button class="btn btn-outline-secondary" onclick="resetTimer()" aria-label="Sifirla">
-                        <i class="bx bx-reset me-1"></i> Sifirla
+                    <button class="btn btn-outline-secondary" onclick="resetTimer()" aria-label="Sıfırla">
+                        <i class="bx bx-reset me-1"></i> Sıfırla
                     </button>
                 </div>
 
-                <!-- Tamamlanan Oturum Sayisi -->
+                <!-- Tamamlanan Oturum Sayısı -->
                 <div class="text-muted">
-                    Tamamlanan Calisma Oturumu: <span id="sessionCount" class="fw-bold">0</span>
+                    Tamamlanan Çalışma Oturumu: <span id="sessionCount" class="fw-bold">0</span>
                 </div>
             </div>
         </div>
@@ -47,11 +47,11 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="workTime" class="form-label">Calisma Suresi (dakika)</label>
+                    <label for="workTime" class="form-label">Çalışma Süresi (dakika)</label>
                     <input type="number" class="form-control" id="workTime" value="25" min="1" max="60">
                 </div>
                 <div class="mb-3">
-                    <label for="shortBreakTime" class="form-label">Kisa Mola (dakika)</label>
+                    <label for="shortBreakTime" class="form-label">Kısa Mola (dakika)</label>
                     <input type="number" class="form-control" id="shortBreakTime" value="5" min="1" max="30">
                 </div>
                 <div class="mb-3">
@@ -59,7 +59,7 @@
                     <input type="number" class="form-control" id="longBreakTime" value="15" min="1" max="60">
                 </div>
                 <button class="btn btn-primary w-100" onclick="applySettings()">
-                    <i class="bx bx-check me-1"></i> Ayarlari Uygula
+                    <i class="bx bx-check me-1"></i> Ayarları Uygula
                 </button>
             </div>
         </div>
@@ -116,7 +116,7 @@
         isWork = true;
         time = workTime;
         sessionCount = 0;
-        modeTextEl.textContent = 'Calisma Zamani';
+        modeTextEl.textContent = 'Çalışma Zamanı';
         sessionCountEl.textContent = sessionCount;
         updateDisplay();
     }
@@ -136,12 +136,12 @@
             } else {
                 isWork = false;
                 time = shortBreakTime;
-                modeTextEl.textContent = 'Kisa Mola';
+                modeTextEl.textContent = 'Kısa Mola';
             }
         } else {
             isWork = true;
             time = workTime;
-            modeTextEl.textContent = 'Calisma Zamani';
+            modeTextEl.textContent = 'Çalışma Zamanı';
         }
 
         updateDisplay();
@@ -154,10 +154,10 @@
 
         resetTimer();
 
-        // Basari mesaji
+        // Başarı mesajı
         const toast = document.createElement('div');
         toast.className = 'alert alert-success position-fixed bottom-0 end-0 m-3';
-        toast.textContent = 'Ayarlar uygulandi!';
+        toast.textContent = 'Ayarlar uygulandı!';
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 2000);
     }

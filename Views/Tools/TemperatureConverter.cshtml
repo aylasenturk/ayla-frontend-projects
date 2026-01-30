@@ -1,9 +1,9 @@
 @{
-    ViewData["Title"] = "Sicaklik Donusturucu";
+    ViewData["Title"] = "Sıcaklık Dönüştürücü";
 }
 
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Hesaplayicilar /</span> Sicaklik Donusturucu
+    <span class="text-muted fw-light">Hesaplayıcılar /</span> Sıcaklık Dönüştürücü
 </h4>
 
 <div class="row justify-content-center">
@@ -11,15 +11,15 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="bx bx-thermometer text-danger me-2"></i>Sicaklik Donusturucu
+                    <i class="bx bx-thermometer text-danger me-2"></i>Sıcaklık Dönüştürücü
                 </h5>
             </div>
             <div class="card-body">
-                <!-- Sicaklik Degeri -->
+                <!-- Sıcaklık Değeri -->
                 <div class="mb-3">
-                    <label for="value" class="form-label">Sicaklik Degeri</label>
+                    <label for="value" class="form-label">Sıcaklık Değeri</label>
                     <input type="number" class="form-control form-control-lg" id="value"
-                           placeholder="Ornek: 25" aria-label="Sicaklik degeri">
+                           placeholder="Örnek: 25" aria-label="Sıcaklık değeri">
                 </div>
 
                 <!-- Kaynak Birim -->
@@ -42,29 +42,29 @@
                     </select>
                 </div>
 
-                <!-- Donustur Butonu -->
+                <!-- Dönüştür Butonu -->
                 <button class="btn btn-primary w-100 mb-3" onclick="convert()">
-                    <i class="bx bx-transfer me-1"></i> Donustur
+                    <i class="bx bx-transfer me-1"></i> Dönüştür
                 </button>
 
-                <!-- Sonuc -->
+                <!-- Sonuç -->
                 <div id="result" class="alert alert-info text-center d-none" role="alert" aria-live="polite">
                     <span class="h4 mb-0"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Hizli Referans -->
+        <!-- Hızlı Referans -->
         <div class="card mt-4">
             <div class="card-header">
-                <h6 class="mb-0">Hizli Referans</h6>
+                <h6 class="mb-0">Hızlı Referans</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Aciklama</th>
+                                <th>Açıklama</th>
                                 <th>Celsius</th>
                                 <th>Fahrenheit</th>
                                 <th>Kelvin</th>
@@ -72,25 +72,25 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Su Donma Noktasi</td>
+                                <td>Su Donma Noktası</td>
                                 <td>0</td>
                                 <td>32</td>
                                 <td>273.15</td>
                             </tr>
                             <tr>
-                                <td>Oda Sicakligi</td>
+                                <td>Oda Sıcaklığı</td>
                                 <td>20</td>
                                 <td>68</td>
                                 <td>293.15</td>
                             </tr>
                             <tr>
-                                <td>Vucut Sicakligi</td>
+                                <td>Vücut Sıcaklığı</td>
                                 <td>37</td>
                                 <td>98.6</td>
                                 <td>310.15</td>
                             </tr>
                             <tr>
-                                <td>Su Kaynama Noktasi</td>
+                                <td>Su Kaynama Noktası</td>
                                 <td>100</td>
                                 <td>212</td>
                                 <td>373.15</td>
@@ -101,10 +101,10 @@
             </div>
         </div>
 
-        <!-- Formuller -->
+        <!-- Formüller -->
         <div class="card mt-4">
             <div class="card-header">
-                <h6 class="mb-0">Donusum Formulleri</h6>
+                <h6 class="mb-0">Dönüşüm Formülleri</h6>
             </div>
             <div class="card-body">
                 <ul class="list-unstyled mb-0">
@@ -140,7 +140,7 @@
 
         if (isNaN(value)) {
             resultDiv.className = 'alert alert-danger text-center';
-            resultDiv.innerHTML = '<i class="bx bx-error me-1"></i> Lutfen gecerli bir sayi giriniz!';
+            resultDiv.innerHTML = '<i class="bx bx-error me-1"></i> Lütfen geçerli bir sayı giriniz!';
             resultDiv.classList.remove('d-none');
             return;
         }
@@ -148,7 +148,7 @@
         let result;
         let unit;
 
-        // Donusum islemleri
+        // Dönüşüm işlemleri
         if (from === 'celsius') {
             if (to === 'fahrenheit') {
                 result = (value * 9/5) + 32;

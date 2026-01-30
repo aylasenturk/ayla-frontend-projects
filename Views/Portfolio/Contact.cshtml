@@ -1,26 +1,26 @@
 @{
-    ViewData["Title"] = "Iletisim - Ayla Senturk Portfolio";
+    ViewData["Title"] = "İletişim - Ayla Şentürk Portfolio";
 }
 
 <h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Portfolio /</span> Iletisim
+    <span class="text-muted fw-light">Portfolio /</span> İletişim
 </h4>
 
 <div class="row">
     <div class="col-lg-8">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="mb-0">Benimle Iletisime Gecin</h5>
+                <h5 class="mb-0">Benimle İletişime Geçin</h5>
             </div>
             <div class="card-body">
                 <form id="contactForm" aria-labelledby="contact-heading">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">
-                                Isim <span class="text-danger">*</span>
+                                İsim <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" id="name" name="name"
-                                   required aria-required="true" placeholder="Adinizi girin">
+                                   required aria-required="true" placeholder="Adınızı girin">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">
@@ -34,19 +34,19 @@
                     <div class="mb-3">
                         <label for="subject" class="form-label">Konu</label>
                         <input type="text" class="form-control" id="subject" name="subject"
-                               placeholder="Mesajinizin konusu">
+                               placeholder="Mesajınızın konusu">
                     </div>
 
                     <div class="mb-3">
                         <label for="message" class="form-label">
-                            Mesajiniz <span class="text-danger">*</span>
+                            Mesajınız <span class="text-danger">*</span>
                         </label>
                         <textarea class="form-control" id="message" name="message" rows="5"
-                                  required aria-required="true" placeholder="Mesajinizi yazin..."></textarea>
+                                  required aria-required="true" placeholder="Mesajınızı yazın..."></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">
-                        <i class="bx bx-send me-1"></i> Gonder
+                        <i class="bx bx-send me-1"></i> Gönder
                     </button>
                 </form>
 
@@ -58,7 +58,7 @@
     <div class="col-lg-4">
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="mb-0">Iletisim Bilgileri</h5>
+                <h5 class="mb-0">İletişim Bilgileri</h5>
             </div>
             <div class="card-body">
                 <div class="d-flex align-items-center mb-3">
@@ -69,7 +69,7 @@
                     </div>
                     <div>
                         <h6 class="mb-0">Konum</h6>
-                        <small class="text-muted">Cankaya, Ankara</small>
+                        <small class="text-muted">Çankaya, Ankara</small>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
         const formMessage = document.getElementById('formMessage');
         const name = document.getElementById('name').value;
 
-        // Form verilerini LocalStorage'a kaydet (demo amacli)
+        // Form verilerini LocalStorage'a kaydet (demo amaçlı)
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -144,15 +144,15 @@
         messages.push(formData);
         localStorage.setItem('contactMessages', JSON.stringify(messages));
 
-        // Basari mesaji goster
+        // Başarı mesajı göster
         formMessage.className = 'alert alert-success mt-3';
-        formMessage.textContent = `Tesekkurler ${name}! Mesajiniz alindi. En kisa surede donus yapilacaktir.`;
+        formMessage.textContent = `Teşekkürler ${name}! Mesajınız alındı. En kısa sürede dönüş yapılacaktır.`;
         formMessage.classList.remove('d-none');
 
         // Formu temizle
         this.reset();
 
-        // 5 saniye sonra mesaji gizle
+        // 5 saniye sonra mesajı gizle
         setTimeout(() => {
             formMessage.classList.add('d-none');
         }, 5000);

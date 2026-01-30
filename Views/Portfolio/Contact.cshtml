@@ -1,0 +1,161 @@
+@{
+    ViewData["Title"] = "Iletisim - Ayla Senturk Portfolio";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Portfolio /</span> Iletisim
+</h4>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Benimle Iletisime Gecin</h5>
+            </div>
+            <div class="card-body">
+                <form id="contactForm" aria-labelledby="contact-heading">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">
+                                Isim <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   required aria-required="true" placeholder="Adinizi girin">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">
+                                E-posta <span class="text-danger">*</span>
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   required aria-required="true" placeholder="ornek@email.com">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Konu</label>
+                        <input type="text" class="form-control" id="subject" name="subject"
+                               placeholder="Mesajinizin konusu">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">
+                            Mesajiniz <span class="text-danger">*</span>
+                        </label>
+                        <textarea class="form-control" id="message" name="message" rows="5"
+                                  required aria-required="true" placeholder="Mesajinizi yazin..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-send me-1"></i> Gonder
+                    </button>
+                </form>
+
+                <div id="formMessage" class="alert mt-3 d-none" role="alert"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Iletisim Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar me-3">
+                        <span class="avatar-initial rounded bg-label-primary">
+                            <i class="bx bx-map"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">Konum</h6>
+                        <small class="text-muted">Cankaya, Ankara</small>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar me-3">
+                        <span class="avatar-initial rounded bg-label-success">
+                            <i class="bx bx-envelope"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">E-posta</h6>
+                        <small class="text-muted">ayla.senturk35@gmail.com</small>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar me-3">
+                        <span class="avatar-initial rounded bg-label-info">
+                            <i class="bx bx-phone"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">Telefon</h6>
+                        <small class="text-muted">0553 153 75 88</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Sosyal Medya</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-icon btn-outline-primary" aria-label="LinkedIn">
+                        <i class="bx bxl-linkedin"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-secondary" aria-label="GitHub">
+                        <i class="bx bxl-github"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-info" aria-label="Twitter">
+                        <i class="bx bxl-twitter"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-danger" aria-label="Instagram">
+                        <i class="bx bxl-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formMessage = document.getElementById('formMessage');
+        const name = document.getElementById('name').value;
+
+        // Form verilerini LocalStorage'a kaydet (demo amacli)
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value,
+            date: new Date().toISOString()
+        };
+
+        const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+        messages.push(formData);
+        localStorage.setItem('contactMessages', JSON.stringify(messages));
+
+        // Basari mesaji goster
+        formMessage.className = 'alert alert-success mt-3';
+        formMessage.textContent = `Tesekkurler ${name}! Mesajiniz alindi. En kisa surede donus yapilacaktir.`;
+        formMessage.classList.remove('d-none');
+
+        // Formu temizle
+        this.reset();
+
+        // 5 saniye sonra mesaji gizle
+        setTimeout(() => {
+            formMessage.classList.add('d-none');
+        }, 5000);
+    });
+</script>
+}

@@ -1,0 +1,227 @@
+@{
+    ViewData["Title"] = "GitHub Rastgele Depo";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">API Entegrasyonlari /</span> GitHub Rastgele Depo
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card bg-dark text-white">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0 text-white">
+                    <i class="bx bx-dice-5 text-success me-2"></i>GitHub Rastgele Depo
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <p class="text-white-50 mb-4">
+                    GitHub API kullanarak yuksek yildizli rastgele bir depo bulun.
+                </p>
+
+                <!-- Buton -->
+                <button class="btn btn-success btn-lg w-100 mb-4" id="searchBtn" onclick="getRandomRepo()">
+                    <i class="bx bx-search me-1"></i> Rastgele Depo Bul
+                </button>
+
+                <!-- Yukleniyor -->
+                <div id="loading" class="d-none mb-4">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Yukleniyor...</span>
+                    </div>
+                    <p class="text-white-50 mt-2">Depo aranıyor...</p>
+                </div>
+
+                <!-- Sonuc -->
+                <div id="repoResult" class="d-none">
+                    <div class="card bg-secondary bg-opacity-25 text-start">
+                        <div class="card-body">
+                            <h5 id="repoName" class="card-title text-white mb-2"></h5>
+                            <p id="repoDesc" class="card-text text-white-50 mb-3"></p>
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="badge bg-warning text-dark" id="repoStars">
+                                    <i class="bx bxs-star me-1"></i> <span></span>
+                                </span>
+                                <span class="badge bg-info" id="repoLanguage">
+                                    <i class="bx bx-code-alt me-1"></i> <span></span>
+                                </span>
+                                <span class="badge bg-secondary" id="repoForks">
+                                    <i class="bx bx-git-repo-forked me-1"></i> <span></span>
+                                </span>
+                            </div>
+                            <a id="repoLink" href="#" target="_blank" class="btn btn-outline-light btn-sm">
+                                <i class="bx bxl-github me-1"></i> GitHub'da Gor
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hata -->
+                <div id="errorMessage" class="alert alert-danger d-none" role="alert">
+                    <i class="bx bx-error-circle me-1"></i>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arama Filtreleri -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Arama Filtreleri</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="minStars" class="form-label">Minimum Yildiz</label>
+                    <select class="form-select" id="minStars">
+                        <option value="100">100+</option>
+                        <option value="500">500+</option>
+                        <option value="1000" selected>1,000+</option>
+                        <option value="5000">5,000+</option>
+                        <option value="10000">10,000+</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="language" class="form-label">Programlama Dili</label>
+                    <select class="form-select" id="language">
+                        <option value="">Tumu</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="go">Go</option>
+                        <option value="rust">Rust</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Son Arananlar -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Son Arananlar</h6>
+                <button class="btn btn-sm btn-outline-secondary" onclick="clearHistory()">Temizle</button>
+            </div>
+            <div class="card-body">
+                <div id="searchHistory" class="list-group list-group-flush">
+                    <p class="text-muted small mb-0">Henuz arama yapilmadi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    const searchBtn = document.getElementById('searchBtn');
+    const loading = document.getElementById('loading');
+    const repoResult = document.getElementById('repoResult');
+    const errorMessage = document.getElementById('errorMessage');
+    const searchHistory = document.getElementById('searchHistory');
+
+    let history = JSON.parse(localStorage.getItem('githubSearchHistory') || '[]');
+
+    function randomPage() {
+        return Math.floor(Math.random() * 50) + 1;
+    }
+
+    async function getRandomRepo() {
+        // UI guncelle
+        searchBtn.disabled = true;
+        loading.classList.remove('d-none');
+        repoResult.classList.add('d-none');
+        errorMessage.classList.add('d-none');
+
+        try {
+            const minStars = document.getElementById('minStars').value;
+            const language = document.getElementById('language').value;
+
+            let query = `stars:>${minStars}`;
+            if (language) {
+                query += `+language:${language}`;
+            }
+
+            const response = await fetch(
+                `https://api.github.com/search/repositories?q=${query}&sort=stars&order=desc&page=${randomPage()}&per_page=30`
+            );
+
+            if (!response.ok) {
+                throw new Error('API hatasi');
+            }
+
+            const data = await response.json();
+
+            if (!data.items || data.items.length === 0) {
+                throw new Error('Depo bulunamadi');
+            }
+
+            // Rastgele bir depo sec
+            const repo = data.items[Math.floor(Math.random() * data.items.length)];
+
+            // Sonuclari goster
+            document.getElementById('repoName').textContent = repo.full_name;
+            document.getElementById('repoDesc').textContent = repo.description || 'Aciklama yok';
+            document.querySelector('#repoStars span').textContent = repo.stargazers_count.toLocaleString('tr-TR');
+            document.querySelector('#repoLanguage span').textContent = repo.language || 'Belirtilmemis';
+            document.querySelector('#repoForks span').textContent = repo.forks_count.toLocaleString('tr-TR');
+            document.getElementById('repoLink').href = repo.html_url;
+
+            repoResult.classList.remove('d-none');
+
+            // Gecmise ekle
+            addToHistory(repo);
+
+        } catch (error) {
+            errorMessage.querySelector('span').textContent = error.message || 'Bir hata olustu. Lutfen tekrar deneyin.';
+            errorMessage.classList.remove('d-none');
+        } finally {
+            searchBtn.disabled = false;
+            loading.classList.add('d-none');
+        }
+    }
+
+    function addToHistory(repo) {
+        // Ayni depo varsa cikar
+        history = history.filter(h => h.full_name !== repo.full_name);
+
+        // Basa ekle
+        history.unshift({
+            full_name: repo.full_name,
+            url: repo.html_url,
+            stars: repo.stargazers_count,
+            timestamp: new Date().toISOString()
+        });
+
+        // Maksimum 10 kayit tut
+        history = history.slice(0, 10);
+
+        localStorage.setItem('githubSearchHistory', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        if (history.length === 0) {
+            searchHistory.innerHTML = '<p class="text-muted small mb-0">Henuz arama yapilmadi.</p>';
+            return;
+        }
+
+        searchHistory.innerHTML = history.map(h => `
+            <a href="${h.url}" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span class="text-truncate" style="max-width: 200px;">${h.full_name}</span>
+                <span class="badge bg-warning text-dark">
+                    <i class="bx bxs-star"></i> ${h.stars.toLocaleString('tr-TR')}
+                </span>
+            </a>
+        `).join('');
+    }
+
+    function clearHistory() {
+        history = [];
+        localStorage.removeItem('githubSearchHistory');
+        renderHistory();
+    }
+
+    // Sayfa yuklendiginde gecmisi goster
+    renderHistory();
+</script>
+}

@@ -1,0 +1,167 @@
+@{
+    ViewData["Title"] = "Pomodoro Zamanlayici";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Uretkenlik Araclari /</span> Pomodoro Zamanlayici
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title mb-4">
+                    <i class="bx bx-time text-primary me-2"></i>Pomodoro
+                </h5>
+
+                <!-- Mod Bilgisi -->
+                <div id="modeText" class="text-muted mb-3" aria-live="polite">Calisma Zamani</div>
+
+                <!-- Geri Sayim -->
+                <div id="timer" class="display-1 fw-bold mb-4" style="font-family: 'Courier New', monospace;">25:00</div>
+
+                <!-- Kontrol Butonlari -->
+                <div class="d-flex gap-2 justify-content-center mb-4">
+                    <button class="btn btn-success" onclick="startTimer()" aria-label="Baslat">
+                        <i class="bx bx-play me-1"></i> Baslat
+                    </button>
+                    <button class="btn btn-warning" onclick="pauseTimer()" aria-label="Duraklat">
+                        <i class="bx bx-pause me-1"></i> Duraklat
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetTimer()" aria-label="Sifirla">
+                        <i class="bx bx-reset me-1"></i> Sifirla
+                    </button>
+                </div>
+
+                <!-- Tamamlanan Oturum Sayisi -->
+                <div class="text-muted">
+                    Tamamlanan Calisma Oturumu: <span id="sessionCount" class="fw-bold">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ayarlar -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Ayarlar</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="workTime" class="form-label">Calisma Suresi (dakika)</label>
+                    <input type="number" class="form-control" id="workTime" value="25" min="1" max="60">
+                </div>
+                <div class="mb-3">
+                    <label for="shortBreakTime" class="form-label">Kisa Mola (dakika)</label>
+                    <input type="number" class="form-control" id="shortBreakTime" value="5" min="1" max="30">
+                </div>
+                <div class="mb-3">
+                    <label for="longBreakTime" class="form-label">Uzun Mola (dakika)</label>
+                    <input type="number" class="form-control" id="longBreakTime" value="15" min="1" max="60">
+                </div>
+                <button class="btn btn-primary w-100" onclick="applySettings()">
+                    <i class="bx bx-check me-1"></i> Ayarlari Uygula
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    let workTime = 25 * 60;
+    let shortBreakTime = 5 * 60;
+    let longBreakTime = 15 * 60;
+    let time = workTime;
+    let isRunning = false;
+    let isWork = true;
+    let interval;
+    let sessionCount = 0;
+
+    const timerEl = document.getElementById('timer');
+    const modeTextEl = document.getElementById('modeText');
+    const sessionCountEl = document.getElementById('sessionCount');
+
+    // Ses
+    const audio = new Audio('https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg');
+
+    function updateDisplay() {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    function startTimer() {
+        if (isRunning) return;
+
+        isRunning = true;
+        interval = setInterval(() => {
+            time--;
+
+            if (time <= 0) {
+                audio.play();
+                nextSession();
+            }
+
+            updateDisplay();
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        isRunning = false;
+        clearInterval(interval);
+    }
+
+    function resetTimer() {
+        pauseTimer();
+        isWork = true;
+        time = workTime;
+        sessionCount = 0;
+        modeTextEl.textContent = 'Calisma Zamani';
+        sessionCountEl.textContent = sessionCount;
+        updateDisplay();
+    }
+
+    function nextSession() {
+        isRunning = false;
+        clearInterval(interval);
+
+        if (isWork) {
+            sessionCount++;
+            sessionCountEl.textContent = sessionCount;
+
+            if (sessionCount % 4 === 0) {
+                isWork = false;
+                time = longBreakTime;
+                modeTextEl.textContent = 'Uzun Mola';
+            } else {
+                isWork = false;
+                time = shortBreakTime;
+                modeTextEl.textContent = 'Kisa Mola';
+            }
+        } else {
+            isWork = true;
+            time = workTime;
+            modeTextEl.textContent = 'Calisma Zamani';
+        }
+
+        updateDisplay();
+    }
+
+    function applySettings() {
+        workTime = parseInt(document.getElementById('workTime').value) * 60;
+        shortBreakTime = parseInt(document.getElementById('shortBreakTime').value) * 60;
+        longBreakTime = parseInt(document.getElementById('longBreakTime').value) * 60;
+
+        resetTimer();
+
+        // Basari mesaji
+        const toast = document.createElement('div');
+        toast.className = 'alert alert-success position-fixed bottom-0 end-0 m-3';
+        toast.textContent = 'Ayarlar uygulandi!';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    updateDisplay();
+</script>
+}

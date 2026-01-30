@@ -1,0 +1,236 @@
+@{
+    ViewData["Title"] = "Yas Hesaplayici";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Hesaplayicilar /</span> Yas Hesaplayici
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-calendar-heart text-primary me-2"></i>Yas Hesaplayici
+                </h5>
+            </div>
+            <div class="card-body">
+                <!-- Tarih Secici -->
+                <fieldset class="mb-4">
+                    <legend class="fs-6 mb-3">Dogum Tarihinizi Secin</legend>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="day" class="form-label">Gun</label>
+                            <select class="form-select" id="day" aria-label="Gun">
+                                <option value="">Gun</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="month" class="form-label">Ay</label>
+                            <select class="form-select" id="month" aria-label="Ay">
+                                <option value="">Ay</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="year" class="form-label">Yil</label>
+                            <select class="form-select" id="year" aria-label="Yil">
+                                <option value="">Yil</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Hesapla Butonu -->
+                <button class="btn btn-primary w-100 mb-3" onclick="calculate()">
+                    <i class="bx bx-calculator me-1"></i> Hesapla
+                </button>
+
+                <!-- Hata Mesaji -->
+                <div id="message" class="alert alert-danger d-none" role="alert" aria-live="assertive"></div>
+
+                <!-- Sonuc -->
+                <div id="result" class="d-none">
+                    <div class="alert alert-success text-center" role="alert" aria-live="polite">
+                        <div class="h3 mb-2" id="ageResult"></div>
+                        <small class="text-muted" id="nextBirthday"></small>
+                    </div>
+
+                    <div class="row text-center mt-3">
+                        <div class="col-4">
+                            <div class="card bg-label-primary">
+                                <div class="card-body p-2">
+                                    <div class="h4 mb-0" id="totalDays">-</div>
+                                    <small>Gun</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card bg-label-info">
+                                <div class="card-body p-2">
+                                    <div class="h4 mb-0" id="totalWeeks">-</div>
+                                    <small>Hafta</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card bg-label-success">
+                                <div class="card-body p-2">
+                                    <div class="h4 mb-0" id="totalMonths">-</div>
+                                    <small>Ay</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Burc Bilgisi -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Burc Bilgisi</h6>
+            </div>
+            <div class="card-body">
+                <div id="zodiacInfo" class="text-center text-muted">
+                    Dogum tarihinizi girerek burcunuzu ogrenin.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    const daySelect = document.getElementById('day');
+    const monthSelect = document.getElementById('month');
+    const yearSelect = document.getElementById('year');
+    const resultDiv = document.getElementById('result');
+    const messageDiv = document.getElementById('message');
+
+    const monthNames = ['Ocak', 'Subat', 'Mart', 'Nisan', 'Mayis', 'Haziran',
+                        'Temmuz', 'Agustos', 'Eylul', 'Ekim', 'Kasim', 'Aralik'];
+
+    const zodiacSigns = [
+        { name: 'Oglak', start: [12, 22], end: [1, 19] },
+        { name: 'Kova', start: [1, 20], end: [2, 18] },
+        { name: 'Balik', start: [2, 19], end: [3, 20] },
+        { name: 'Koc', start: [3, 21], end: [4, 19] },
+        { name: 'Boga', start: [4, 20], end: [5, 20] },
+        { name: 'Ikizler', start: [5, 21], end: [6, 20] },
+        { name: 'Yengec', start: [6, 21], end: [7, 22] },
+        { name: 'Aslan', start: [7, 23], end: [8, 22] },
+        { name: 'Basak', start: [8, 23], end: [9, 22] },
+        { name: 'Terazi', start: [9, 23], end: [10, 22] },
+        { name: 'Akrep', start: [10, 23], end: [11, 21] },
+        { name: 'Yay', start: [11, 22], end: [12, 21] }
+    ];
+
+    // Gunleri doldur
+    for (let i = 1; i <= 31; i++) {
+        daySelect.innerHTML += `<option value="${i}">${i}</option>`;
+    }
+
+    // Aylari doldur
+    for (let i = 1; i <= 12; i++) {
+        monthSelect.innerHTML += `<option value="${i}">${monthNames[i-1]}</option>`;
+    }
+
+    // Yillari doldur
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1900; i--) {
+        yearSelect.innerHTML += `<option value="${i}">${i}</option>`;
+    }
+
+    function calculate() {
+        messageDiv.classList.add('d-none');
+        resultDiv.classList.add('d-none');
+
+        const day = parseInt(daySelect.value);
+        const month = parseInt(monthSelect.value);
+        const year = parseInt(yearSelect.value);
+
+        // Dogrulama
+        if (!day || !month || !year) {
+            messageDiv.textContent = 'Lutfen tum tarih alanlarini doldurun.';
+            messageDiv.classList.remove('d-none');
+            return;
+        }
+
+        const birthDate = new Date(year, month - 1, day);
+        const now = new Date();
+
+        // Gecerli tarih kontrolu
+        if (birthDate.getDate() !== day) {
+            messageDiv.textContent = 'Gecersiz dogum tarihi.';
+            messageDiv.classList.remove('d-none');
+            return;
+        }
+
+        if (birthDate > now) {
+            messageDiv.textContent = 'Dogum tarihi gelecekte olamaz.';
+            messageDiv.classList.remove('d-none');
+            return;
+        }
+
+        // Yas hesaplama
+        let years = now.getFullYear() - birthDate.getFullYear();
+        let months = now.getMonth() - birthDate.getMonth();
+        let days = now.getDate() - birthDate.getDate();
+
+        if (days < 0) {
+            months--;
+            const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        // Sonuclari goster
+        document.getElementById('ageResult').textContent = `${years} yil, ${months} ay, ${days} gun`;
+
+        // Toplam hesaplamalar
+        const totalMs = now - birthDate;
+        const totalDays = Math.floor(totalMs / (1000 * 60 * 60 * 24));
+        const totalWeeks = Math.floor(totalDays / 7);
+        const totalMonths = years * 12 + months;
+
+        document.getElementById('totalDays').textContent = totalDays.toLocaleString('tr-TR');
+        document.getElementById('totalWeeks').textContent = totalWeeks.toLocaleString('tr-TR');
+        document.getElementById('totalMonths').textContent = totalMonths.toLocaleString('tr-TR');
+
+        // Sonraki dogum gunu
+        let nextBirthday = new Date(now.getFullYear(), month - 1, day);
+        if (nextBirthday < now) {
+            nextBirthday.setFullYear(now.getFullYear() + 1);
+        }
+        const daysUntilBirthday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
+        document.getElementById('nextBirthday').textContent =
+            daysUntilBirthday === 0
+                ? 'Dogum gununuz kutlu olsun!'
+                : `Sonraki dogum gununuze ${daysUntilBirthday} gun kaldi.`;
+
+        // Burc hesaplama
+        const zodiac = getZodiacSign(month, day);
+        document.getElementById('zodiacInfo').innerHTML = `
+            <div class="h4 text-primary mb-1">${zodiac}</div>
+            <small class="text-muted">Burcunuz</small>
+        `;
+
+        resultDiv.classList.remove('d-none');
+    }
+
+    function getZodiacSign(month, day) {
+        for (const sign of zodiacSigns) {
+            if ((month === sign.start[0] && day >= sign.start[1]) ||
+                (month === sign.end[0] && day <= sign.end[1])) {
+                return sign.name;
+            }
+        }
+        return 'Oglak'; // Aralik sonu - Ocak basi
+    }
+</script>
+}

@@ -1,0 +1,202 @@
+@{
+    ViewData["Title"] = "Cerez Onayi";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">UI Bilesenleri /</span> Cerez Onayi
+</h4>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-cookie text-primary me-2"></i>Cerez Onayi Bileseni
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    KVKK ve GDPR uyumlulugu icin web sitelerinde kullanilan cerez onayi bileseni ornegi.
+                    Kullanici tercihleri LocalStorage'da saklanir.
+                </p>
+
+                <!-- Demo Butonlari -->
+                <div class="d-flex gap-2 mb-4">
+                    <button class="btn btn-primary" onclick="showCookieBanner()">
+                        <i class="bx bx-show me-1"></i> Banner'i Goster
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetCookieChoice()">
+                        <i class="bx bx-reset me-1"></i> Tercihi Sifirla
+                    </button>
+                </div>
+
+                <!-- Mevcut Durum -->
+                <div class="alert alert-info" id="cookieStatus">
+                    <i class="bx bx-info-circle me-1"></i>
+                    Cerez tercihi: <strong id="currentChoice">Kontrol ediliyor...</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Farkli Banner Stilleri -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Basit Banner</h6>
+            </div>
+            <div class="card-body bg-dark text-white rounded">
+                <p class="mb-3">
+                    Web sitemizde kullanici deneyimini gelistirmek icin cerezler kullanilmaktadir.
+                </p>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-light btn-sm">Reddet</button>
+                    <button class="btn btn-primary btn-sm">Kabul Et</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Detayli Banner</h6>
+            </div>
+            <div class="card-body bg-light rounded">
+                <h6>Cerez Politikasi</h6>
+                <p class="small mb-3">
+                    Bu web sitesi, size en iyi deneyimi sunmak icin cerezler kullanmaktadir.
+                    <a href="#">Daha fazla bilgi</a>
+                </p>
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="essentialCookies" checked disabled>
+                        <label class="form-check-label" for="essentialCookies">
+                            Zorunlu Cerezler <span class="badge bg-secondary">Gerekli</span>
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="analyticsCookies">
+                        <label class="form-check-label" for="analyticsCookies">Analitik Cerezler</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="marketingCookies">
+                        <label class="form-check-label" for="marketingCookies">Pazarlama Cerezleri</label>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm">Sadece Zorunlu</button>
+                    <button class="btn btn-primary btn-sm">Secilenleri Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Kod Ornegi -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Kullanim Notu</h6>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Banner, sayfa acildiginda otomatik olarak gosterilir (eger daha once tercih yapilmamissa)</li>
+                    <li>Kullanici tercihi LocalStorage'da <code>cookiesChoice</code> anahtariyla saklanir</li>
+                    <li>KVKK/GDPR uyumlulugu icin cerez politikasi sayfasina link eklenmeli</li>
+                    <li>Zorunlu cerezler icin ayri bir kategori kullanilmali</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Banner (Fixed) -->
+<div class="position-fixed bottom-0 start-50 translate-middle-x mb-4 d-none" id="cookieBanner"
+     style="max-width: 520px; width: calc(100% - 40px); z-index: 1050;"
+     role="dialog" aria-live="polite" aria-label="Cerez onayi">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <div class="d-flex align-items-start">
+                <div class="avatar me-3">
+                    <span class="avatar-initial rounded bg-label-warning">
+                        <i class="bx bx-cookie"></i>
+                    </span>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="mb-1">Cerez Bildirimi</h6>
+                    <p class="text-muted small mb-3">
+                        Web sitemizde kullanici deneyimini gelistirmek icin cerezler kullanilmaktadir.
+                        Devam ederek cerez kullanimimizi kabul etmis olursunuz.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="rejectCookies()">
+                            Reddet
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="acceptCookies()">
+                            Kabul Et
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    const banner = document.getElementById('cookieBanner');
+    const currentChoiceEl = document.getElementById('currentChoice');
+
+    function updateStatus() {
+        const choice = localStorage.getItem('cookiesChoice');
+        if (choice === 'accepted') {
+            currentChoiceEl.textContent = 'Kabul Edildi';
+            currentChoiceEl.className = 'text-success';
+        } else if (choice === 'rejected') {
+            currentChoiceEl.textContent = 'Reddedildi';
+            currentChoiceEl.className = 'text-danger';
+        } else {
+            currentChoiceEl.textContent = 'Henuz secilmedi';
+            currentChoiceEl.className = 'text-warning';
+        }
+    }
+
+    function showCookieBanner() {
+        banner.classList.remove('d-none');
+    }
+
+    function hideCookieBanner() {
+        banner.classList.add('d-none');
+    }
+
+    function acceptCookies() {
+        localStorage.setItem('cookiesChoice', 'accepted');
+        hideCookieBanner();
+        updateStatus();
+    }
+
+    function rejectCookies() {
+        localStorage.setItem('cookiesChoice', 'rejected');
+        hideCookieBanner();
+        updateStatus();
+    }
+
+    function resetCookieChoice() {
+        localStorage.removeItem('cookiesChoice');
+        updateStatus();
+        showCookieBanner();
+    }
+
+    // Sayfa yuklendiginde durumu kontrol et
+    updateStatus();
+
+    // Eger tercih yapilmamissa banner'i goster
+    if (!localStorage.getItem('cookiesChoice')) {
+        setTimeout(showCookieBanner, 1000);
+    }
+</script>
+}

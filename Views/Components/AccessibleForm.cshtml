@@ -1,0 +1,263 @@
+@{
+    ViewData["Title"] = "Erisebilir Form";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">UI Bilesenleri /</span> Erisebilir Form
+</h4>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-accessibility text-primary me-2"></i>Erisebilir Iletisim Formu
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    Bu form, web erisebilirlik standartlarina (WCAG) uygun olarak tasarlanmistir.
+                    ARIA etiketleri, klavye navigasyonu ve ekran okuyucu destegi icerir.
+                </p>
+
+                <form id="accessibleForm" aria-labelledby="form-title" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">
+                                Ad Soyad <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   required aria-required="true" aria-describedby="name-help name-error">
+                            <div id="name-help" class="form-text">
+                                Lutfen adinizi ve soyadinizi giriniz.
+                            </div>
+                            <div id="name-error" class="invalid-feedback" role="alert" aria-live="polite"></div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">
+                                E-posta <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   required aria-required="true" aria-describedby="email-help email-error">
+                            <div id="email-help" class="form-text">
+                                Gecerli bir e-posta adresi giriniz.
+                            </div>
+                            <div id="email-error" class="invalid-feedback" role="alert" aria-live="polite"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Telefon</label>
+                        <input type="tel" class="form-control" id="phone" name="phone"
+                               pattern="[0-9]{10,11}" aria-describedby="phone-help">
+                        <div id="phone-help" class="form-text">
+                            Ornek: 05551234567
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Konu</label>
+                        <select class="form-select" id="subject" name="subject">
+                            <option value="">Konu seciniz</option>
+                            <option value="general">Genel Bilgi</option>
+                            <option value="support">Destek</option>
+                            <option value="feedback">Geri Bildirim</option>
+                            <option value="complaint">Sikayet</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">
+                            Mesaj <span class="text-danger" aria-hidden="true">*</span>
+                        </label>
+                        <textarea class="form-control" id="message" name="message" rows="4"
+                                  required aria-required="true" aria-describedby="message-help message-error"></textarea>
+                        <div id="message-help" class="form-text">
+                            Mesajinizi en az birkac kelimeyle aciklayin.
+                        </div>
+                        <div id="message-error" class="invalid-feedback" role="alert" aria-live="polite"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+                            <label class="form-check-label" for="newsletter">
+                                E-posta bultenine abone olmak istiyorum
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="privacy" name="privacy"
+                                   required aria-required="true">
+                            <label class="form-check-label" for="privacy">
+                                <a href="#" target="_blank">Gizlilik politikasini</a> okudum ve kabul ediyorum
+                                <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <div id="privacy-error" class="invalid-feedback" role="alert" aria-live="polite"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-send me-1"></i> Gonder
+                    </button>
+                </form>
+
+                <!-- Basari Mesaji -->
+                <div id="successMessage" class="alert alert-success mt-4 d-none" role="alert" aria-live="polite">
+                    <i class="bx bx-check-circle me-1"></i>
+                    Mesajiniz basariyla gonderildi. En kisa surede donus yapilacaktir.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Erisebilirlik Kontrol Listesi -->
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">Erisebilirlik Ozellikleri</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        ARIA etiketleri
+                    </li>
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        Klavye navigasyonu
+                    </li>
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        Focus gostergeleri
+                    </li>
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        Hata mesajlari (aria-live)
+                    </li>
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        Yardim metinleri (aria-describedby)
+                    </li>
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        Zorunlu alan isaretleri (aria-required)
+                    </li>
+                    <li class="mb-2">
+                        <i class="bx bx-check text-success me-1"></i>
+                        Semantik HTML etiketleri
+                    </li>
+                    <li>
+                        <i class="bx bx-check text-success me-1"></i>
+                        Renk kontrasti
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Klavye Kisayollari -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Klavye Navigasyonu</h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm mb-0">
+                    <tbody>
+                        <tr>
+                            <td><kbd>Tab</kbd></td>
+                            <td>Sonraki alana git</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+                            <td>Onceki alana git</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Enter</kbd></td>
+                            <td>Formu gonder</td>
+                        </tr>
+                        <tr>
+                            <td><kbd>Space</kbd></td>
+                            <td>Checkbox toggle</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    const form = document.getElementById('accessibleForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Onceki hatalari temizle
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+
+        let isValid = true;
+
+        // Ad Soyad kontrolu
+        const name = document.getElementById('name');
+        if (!name.value.trim()) {
+            showError(name, 'name-error', 'Ad Soyad alani zorunludur.');
+            isValid = false;
+        }
+
+        // E-posta kontrolu
+        const email = document.getElementById('email');
+        const emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+        if (!email.value.trim()) {
+            showError(email, 'email-error', 'E-posta alani zorunludur.');
+            isValid = false;
+        } else if (!emailRegex.test(email.value)) {
+            showError(email, 'email-error', 'Gecerli bir e-posta adresi giriniz.');
+            isValid = false;
+        }
+
+        // Mesaj kontrolu
+        const message = document.getElementById('message');
+        if (!message.value.trim()) {
+            showError(message, 'message-error', 'Mesaj alani zorunludur.');
+            isValid = false;
+        }
+
+        // Gizlilik politikasi kontrolu
+        const privacy = document.getElementById('privacy');
+        if (!privacy.checked) {
+            showError(privacy, 'privacy-error', 'Gizlilik politikasini kabul etmelisiniz.');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Formu gonder (demo)
+            successMessage.classList.remove('d-none');
+            form.reset();
+
+            // Basari mesajina focus
+            successMessage.focus();
+
+            // 5 saniye sonra gizle
+            setTimeout(() => {
+                successMessage.classList.add('d-none');
+            }, 5000);
+        }
+    });
+
+    function showError(element, errorId, message) {
+        element.classList.add('is-invalid');
+        document.getElementById(errorId).textContent = message;
+
+        // Ilk hatali alana focus
+        if (document.querySelectorAll('.is-invalid').length === 1) {
+            element.focus();
+        }
+    }
+</script>
+}

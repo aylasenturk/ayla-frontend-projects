@@ -1,0 +1,217 @@
+@{
+    ViewData["Title"] = "Bilgi Kartlari";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">UI Bilesenleri /</span> Bilgi Kartlari
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-credit-card text-primary me-2"></i>Bilgi Kartlari
+                </h5>
+            </div>
+            <div class="card-body text-center">
+                <!-- Kart -->
+                <div id="flashcard" class="card bg-light mb-4 cursor-pointer" style="min-height: 150px; cursor: pointer;"
+                     role="button" tabindex="0" aria-live="polite"
+                     aria-label="Karti cevirmek icin tiklayin veya Enter tusuna basin">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <span id="cardContent" class="h5 mb-0">Yukleniyor...</span>
+                    </div>
+                </div>
+
+                <!-- Navigasyon -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button class="btn btn-outline-primary" id="prevBtn" aria-label="Onceki kart">
+                        <i class="bx bx-chevron-left me-1"></i> Geri
+                    </button>
+                    <span id="progress" class="text-muted" aria-live="polite">1 / 5</span>
+                    <button class="btn btn-outline-primary" id="nextBtn" aria-label="Sonraki kart">
+                        Ileri <i class="bx bx-chevron-right ms-1"></i>
+                    </button>
+                </div>
+
+                <!-- Ipucu -->
+                <small class="text-muted">
+                    <i class="bx bx-info-circle me-1"></i>
+                    Cevabi gormek icin karta tiklayin
+                </small>
+            </div>
+        </div>
+
+        <!-- Kart Listesi -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Tum Kartlar</h6>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addCardModal">
+                    <i class="bx bx-plus"></i> Yeni Kart
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="list-group" id="cardList">
+                    <!-- JavaScript ile doldurulacak -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yeni Kart Modal -->
+<div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCardModalLabel">Yeni Kart Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="newQuestion" class="form-label">Soru</label>
+                    <input type="text" class="form-control" id="newQuestion" placeholder="Soruyu girin">
+                </div>
+                <div class="mb-3">
+                    <label for="newAnswer" class="form-label">Cevap</label>
+                    <input type="text" class="form-control" id="newAnswer" placeholder="Cevabi girin">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Iptal</button>
+                <button type="button" class="btn btn-primary" onclick="addCard()">Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    let cards = JSON.parse(localStorage.getItem('flashcards')) || [
+        { question: "HTML nedir?", answer: "Web sayfalarinin yapisini olusturur." },
+        { question: "CSS ne ise yarar?", answer: "Web sayfasinin tasarimini duzenler." },
+        { question: "JavaScript nedir?", answer: "Web sayfasina etkilesim katar." },
+        { question: "DOM nedir?", answer: "Document Object Model - HTML belgelerinin programatik temsili." },
+        { question: "API nedir?", answer: "Application Programming Interface - Uygulamalar arasi iletisim arayuzu." }
+    ];
+
+    let index = 0;
+    let showAnswer = false;
+
+    const flashcard = document.getElementById('flashcard');
+    const cardContent = document.getElementById('cardContent');
+    const progress = document.getElementById('progress');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const cardList = document.getElementById('cardList');
+
+    function save() {
+        localStorage.setItem('flashcards', JSON.stringify(cards));
+    }
+
+    function renderCard() {
+        if (cards.length === 0) {
+            cardContent.textContent = 'Henuz kart eklenmedi';
+            progress.textContent = '0 / 0';
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            return;
+        }
+
+        cardContent.textContent = showAnswer ? cards[index].answer : cards[index].question;
+        progress.textContent = `${index + 1} / ${cards.length}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === cards.length - 1;
+
+        // Kart listesini guncelle
+        renderCardList();
+    }
+
+    function renderCardList() {
+        cardList.innerHTML = '';
+        cards.forEach((card, i) => {
+            const item = document.createElement('div');
+            item.className = `list-group-item d-flex justify-content-between align-items-center ${i === index ? 'active' : ''}`;
+            item.innerHTML = `
+                <div>
+                    <strong class="d-block">${card.question}</strong>
+                    <small class="${i === index ? 'text-white-50' : 'text-muted'}">${card.answer}</small>
+                </div>
+                <button class="btn btn-sm btn-outline-danger ${i === index ? 'btn-outline-light' : ''}" onclick="deleteCard(${i})" aria-label="Karti sil">
+                    <i class="bx bx-trash"></i>
+                </button>
+            `;
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('button')) {
+                    index = i;
+                    showAnswer = false;
+                    renderCard();
+                }
+            });
+            cardList.appendChild(item);
+        });
+    }
+
+    flashcard.addEventListener('click', () => {
+        showAnswer = !showAnswer;
+        renderCard();
+    });
+
+    flashcard.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            showAnswer = !showAnswer;
+            renderCard();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (index < cards.length - 1) {
+            index++;
+            showAnswer = false;
+            renderCard();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (index > 0) {
+            index--;
+            showAnswer = false;
+            renderCard();
+        }
+    });
+
+    function addCard() {
+        const question = document.getElementById('newQuestion').value.trim();
+        const answer = document.getElementById('newAnswer').value.trim();
+
+        if (question && answer) {
+            cards.push({ question, answer });
+            save();
+            index = cards.length - 1;
+            showAnswer = false;
+            renderCard();
+
+            // Modal'i kapat ve formu temizle
+            bootstrap.Modal.getInstance(document.getElementById('addCardModal')).hide();
+            document.getElementById('newQuestion').value = '';
+            document.getElementById('newAnswer').value = '';
+        }
+    }
+
+    function deleteCard(i) {
+        if (confirm('Bu karti silmek istediginizden emin misiniz?')) {
+            cards.splice(i, 1);
+            save();
+            if (index >= cards.length) index = Math.max(0, cards.length - 1);
+            showAnswer = false;
+            renderCard();
+        }
+    }
+
+    // Ilk render
+    renderCard();
+</script>
+}

@@ -1,0 +1,213 @@
+@{
+    ViewData["Title"] = "Tarih Secici";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Uretkenlik Araclari /</span> Tarih Secici
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <!-- Baslik ve Navigasyon -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button class="btn btn-sm btn-outline-primary" id="prevBtn" aria-label="Onceki ay">
+                        <i class="bx bx-chevron-left"></i>
+                    </button>
+                    <h5 id="monthTitle" class="mb-0">Ocak 2025</h5>
+                    <button class="btn btn-sm btn-outline-primary" id="nextBtn" aria-label="Sonraki ay">
+                        <i class="bx bx-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Gun Isimleri -->
+                <div class="d-grid mb-2" style="grid-template-columns: repeat(7, 1fr); text-align: center;">
+                    <small class="text-muted fw-bold">Pzt</small>
+                    <small class="text-muted fw-bold">Sal</small>
+                    <small class="text-muted fw-bold">Car</small>
+                    <small class="text-muted fw-bold">Per</small>
+                    <small class="text-muted fw-bold">Cum</small>
+                    <small class="text-muted fw-bold">Cts</small>
+                    <small class="text-muted fw-bold">Paz</small>
+                </div>
+
+                <!-- Gunler -->
+                <div id="daysGrid" class="d-grid" style="grid-template-columns: repeat(7, 1fr); text-align: center; gap: 2px;"
+                     role="grid" aria-label="Takvim gunleri">
+                    <!-- JavaScript ile doldurulacak -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Secilen Tarih -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <h6 class="mb-2">Secilen Tarih:</h6>
+                <div id="selectedDate" class="h4 text-primary mb-0" aria-live="polite">-</div>
+            </div>
+        </div>
+
+        <!-- Tarih Formatlari -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Tarih Formatlari</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <td class="text-muted">ISO 8601</td>
+                                <td id="formatISO" class="fw-bold">-</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Turkce</td>
+                                <td id="formatTR" class="fw-bold">-</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Unix Timestamp</td>
+                                <td id="formatUnix" class="fw-bold">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    const monthNames = ['Ocak', 'Subat', 'Mart', 'Nisan', 'Mayis', 'Haziran',
+                        'Temmuz', 'Agustos', 'Eylul', 'Ekim', 'Kasim', 'Aralik'];
+
+    const dayNames = ['Pazar', 'Pazartesi', 'Sali', 'Carsamba', 'Persembe', 'Cuma', 'Cumartesi'];
+
+    let currentDate = new Date();
+    let selectedDate = new Date();
+
+    const monthTitle = document.getElementById('monthTitle');
+    const daysGrid = document.getElementById('daysGrid');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const selectedDateEl = document.getElementById('selectedDate');
+    const formatISO = document.getElementById('formatISO');
+    const formatTR = document.getElementById('formatTR');
+    const formatUnix = document.getElementById('formatUnix');
+
+    function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        monthTitle.textContent = `${monthNames[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+
+        let startDay = firstDay.getDay() - 1;
+        if (startDay < 0) startDay = 6;
+
+        daysGrid.innerHTML = '';
+
+        // Onceki ayin gunleri
+        const prevMonthLastDay = new Date(year, month, 0).getDate();
+        for (let i = startDay - 1; i >= 0; i--) {
+            const div = document.createElement('div');
+            div.textContent = prevMonthLastDay - i;
+            div.className = 'p-2 text-muted opacity-50';
+            div.setAttribute('aria-disabled', 'true');
+            daysGrid.appendChild(div);
+        }
+
+        // Bu ayin gunleri
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+            const div = document.createElement('div');
+            div.textContent = day;
+            div.className = 'p-2 rounded cursor-pointer';
+            div.style.cursor = 'pointer';
+            div.setAttribute('role', 'gridcell');
+            div.setAttribute('tabindex', '0');
+
+            // Bugun
+            const today = new Date();
+            if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                div.classList.add('bg-label-info');
+            }
+
+            // Secili gun
+            if (selectedDate.getDate() === day &&
+                selectedDate.getMonth() === month &&
+                selectedDate.getFullYear() === year) {
+                div.classList.add('bg-primary', 'text-white');
+                div.setAttribute('aria-selected', 'true');
+            }
+
+            div.addEventListener('click', () => selectDay(day));
+            div.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectDay(day);
+                }
+            });
+
+            div.addEventListener('mouseenter', () => {
+                if (!div.classList.contains('bg-primary')) {
+                    div.classList.add('bg-label-primary');
+                }
+            });
+
+            div.addEventListener('mouseleave', () => {
+                div.classList.remove('bg-label-primary');
+            });
+
+            daysGrid.appendChild(div);
+        }
+
+        // Sonraki ayin gunleri
+        const totalCells = startDay + lastDay.getDate();
+        const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+        for (let i = 1; i <= remaining; i++) {
+            const div = document.createElement('div');
+            div.textContent = i;
+            div.className = 'p-2 text-muted opacity-50';
+            div.setAttribute('aria-disabled', 'true');
+            daysGrid.appendChild(div);
+        }
+    }
+
+    function selectDay(day) {
+        selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        updateSelectedDisplay();
+        renderCalendar();
+    }
+
+    function updateSelectedDisplay() {
+        const day = selectedDate.getDate();
+        const month = selectedDate.getMonth();
+        const year = selectedDate.getFullYear();
+        const dayName = dayNames[selectedDate.getDay()];
+
+        selectedDateEl.textContent = `${day} ${monthNames[month]} ${year}, ${dayName}`;
+
+        // Formatlar
+        formatISO.textContent = selectedDate.toISOString().split('T')[0];
+        formatTR.textContent = `${day.toString().padStart(2, '0')}.${(month + 1).toString().padStart(2, '0')}.${year}`;
+        formatUnix.textContent = Math.floor(selectedDate.getTime() / 1000);
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+
+    // Ilk render
+    renderCalendar();
+    updateSelectedDisplay();
+</script>
+}

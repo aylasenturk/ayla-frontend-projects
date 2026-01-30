@@ -1,0 +1,165 @@
+@{
+    ViewData["Title"] = "Kisitli Metin Alani";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">UI Bilesenleri /</span> Kisitli Metin Alani
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-text text-primary me-2"></i>Kisitli Metin Alani
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    Kullanicinin girebilecegi karakter sayisini sinirlamak icin kullanilir.
+                    Twitter tweet'leri veya SMS mesajlari gibi durumlarda yaygin olarak kullanilir.
+                </p>
+
+                <!-- Metin Alani 1: 100 karakter -->
+                <div class="mb-4">
+                    <label for="text100" class="form-label">Kisa Metin (Maksimum 100 karakter)</label>
+                    <textarea class="form-control limited-textarea" id="text100" rows="3"
+                              maxlength="100" data-max="100"
+                              placeholder="Metin girin..." aria-describedby="counter100"></textarea>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small class="text-muted">Kalan: <span id="remaining100">100</span> karakter</small>
+                        <small id="counter100" class="text-muted" aria-live="polite">0 / 100</small>
+                    </div>
+                </div>
+
+                <!-- Metin Alani 2: 280 karakter (Twitter) -->
+                <div class="mb-4">
+                    <label for="text280" class="form-label">Tweet Benzeri (Maksimum 280 karakter)</label>
+                    <textarea class="form-control limited-textarea" id="text280" rows="4"
+                              maxlength="280" data-max="280"
+                              placeholder="Ne dusunuyorsunuz?" aria-describedby="counter280"></textarea>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small class="text-muted">Kalan: <span id="remaining280">280</span> karakter</small>
+                        <small id="counter280" class="text-muted" aria-live="polite">0 / 280</small>
+                    </div>
+                    <div class="progress mt-2" style="height: 4px;">
+                        <div class="progress-bar" id="progress280" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Metin Alani 3: 500 karakter -->
+                <div class="mb-4">
+                    <label for="text500" class="form-label">Aciklama (Maksimum 500 karakter)</label>
+                    <textarea class="form-control limited-textarea" id="text500" rows="5"
+                              maxlength="500" data-max="500"
+                              placeholder="Detayli aciklama yazin..." aria-describedby="counter500"></textarea>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small class="text-muted">Kalan: <span id="remaining500">500</span> karakter</small>
+                        <small id="counter500" class="text-muted" aria-live="polite">0 / 500</small>
+                    </div>
+                </div>
+
+                <!-- Kelime Sayaci -->
+                <div class="mb-4">
+                    <label for="wordCount" class="form-label">Kelime Sayaci</label>
+                    <textarea class="form-control" id="wordCount" rows="4"
+                              placeholder="Metin yazin ve kelime sayisini gorun..."></textarea>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small class="text-muted">Kelime sayisi: <span id="wordCounter">0</span></small>
+                        <small class="text-muted">Karakter sayisi: <span id="charCounter">0</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kullanim Ornekleri -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Kullanim Alanlari</h6>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li><strong>Sosyal Medya:</strong> Tweet (280), Instagram bio (150)</li>
+                    <li><strong>SMS:</strong> 160 karakter siniri</li>
+                    <li><strong>SEO:</strong> Meta description (155-160)</li>
+                    <li><strong>Form Alanlari:</strong> Kullanici yorumlari, aciklamalar</li>
+                    <li><strong>Veritabani:</strong> VARCHAR sinirlamasi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    // Kisitli metin alanlari
+    document.querySelectorAll('.limited-textarea').forEach(textarea => {
+        const max = parseInt(textarea.dataset.max);
+        const id = textarea.id;
+        const counter = document.getElementById('counter' + id.replace('text', ''));
+        const remaining = document.getElementById('remaining' + id.replace('text', ''));
+        const progress = document.getElementById('progress' + id.replace('text', ''));
+
+        textarea.addEventListener('input', () => {
+            // Siniri asarsa kes
+            if (textarea.value.length > max) {
+                textarea.value = textarea.value.slice(0, max);
+            }
+
+            const length = textarea.value.length;
+            const remainingChars = max - length;
+
+            // Sayaclari guncelle
+            counter.textContent = `${length} / ${max}`;
+            remaining.textContent = remainingChars;
+
+            // Renklerndirme
+            if (remainingChars <= 10) {
+                counter.classList.remove('text-muted', 'text-warning');
+                counter.classList.add('text-danger');
+                remaining.classList.remove('text-muted', 'text-warning');
+                remaining.classList.add('text-danger');
+            } else if (remainingChars <= 30) {
+                counter.classList.remove('text-muted', 'text-danger');
+                counter.classList.add('text-warning');
+                remaining.classList.remove('text-muted', 'text-danger');
+                remaining.classList.add('text-warning');
+            } else {
+                counter.classList.remove('text-warning', 'text-danger');
+                counter.classList.add('text-muted');
+                remaining.classList.remove('text-warning', 'text-danger');
+                remaining.classList.add('text-muted');
+            }
+
+            // Progress bar (sadece 280 icin)
+            if (progress) {
+                const percentage = (length / max) * 100;
+                progress.style.width = percentage + '%';
+
+                progress.classList.remove('bg-success', 'bg-warning', 'bg-danger');
+                if (percentage >= 90) {
+                    progress.classList.add('bg-danger');
+                } else if (percentage >= 70) {
+                    progress.classList.add('bg-warning');
+                } else {
+                    progress.classList.add('bg-success');
+                }
+            }
+        });
+    });
+
+    // Kelime sayaci
+    const wordCountTextarea = document.getElementById('wordCount');
+    const wordCounter = document.getElementById('wordCounter');
+    const charCounter = document.getElementById('charCounter');
+
+    wordCountTextarea.addEventListener('input', () => {
+        const text = wordCountTextarea.value.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        const chars = wordCountTextarea.value.length;
+
+        wordCounter.textContent = words;
+        charCounter.textContent = chars;
+    });
+</script>
+}

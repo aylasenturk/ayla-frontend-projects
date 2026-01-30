@@ -1,0 +1,191 @@
+@{
+    ViewData["Title"] = "Gorev Takipcisi";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">Uretkenlik Araclari /</span> Gorev Takipcisi
+</h4>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-task text-primary me-2"></i>Gorev Takipcisi
+                </h5>
+            </div>
+            <div class="card-body">
+                <!-- Gorev Ekleme -->
+                <div class="input-group mb-4">
+                    <input type="text" class="form-control" id="taskInput"
+                           placeholder="Yeni gorev yaz..." aria-label="Yeni gorev">
+                    <button class="btn btn-primary" id="addBtn" aria-label="Gorev ekle">
+                        <i class="bx bx-plus"></i> Ekle
+                    </button>
+                </div>
+
+                <!-- Filtreler -->
+                <div class="btn-group w-100 mb-4" role="group" aria-label="Gorev filtreleri">
+                    <button type="button" class="btn btn-outline-primary active" data-filter="all" aria-pressed="true">
+                        Tumu
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="todo" aria-pressed="false">
+                        Devam Eden
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="done" aria-pressed="false">
+                        Tamamlanan
+                    </button>
+                </div>
+
+                <!-- Gorev Listesi -->
+                <ul id="taskList" class="list-group" role="list" aria-live="polite" aria-label="Gorev listesi">
+                    <!-- JavaScript ile doldurulacak -->
+                </ul>
+
+                <!-- Bos Liste Mesaji -->
+                <div id="emptyMessage" class="text-center text-muted py-4 d-none">
+                    <i class="bx bx-clipboard bx-lg mb-2"></i>
+                    <p class="mb-0">Henuz gorev eklenmedi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Istatistikler -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h4 id="totalCount" class="mb-0">0</h4>
+                        <small class="text-muted">Toplam</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 id="pendingCount" class="mb-0 text-warning">0</h4>
+                        <small class="text-muted">Devam Eden</small>
+                    </div>
+                    <div class="col-4">
+                        <h4 id="doneCount" class="mb-0 text-success">0</h4>
+                        <small class="text-muted">Tamamlanan</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let filter = 'all';
+
+    const input = document.getElementById('taskInput');
+    const list = document.getElementById('taskList');
+    const addBtn = document.getElementById('addBtn');
+    const emptyMessage = document.getElementById('emptyMessage');
+    const filterButtons = document.querySelectorAll('[data-filter]');
+
+    function save() {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function updateStats() {
+        const total = tasks.length;
+        const done = tasks.filter(t => t.status === 'done').length;
+        const pending = total - done;
+
+        document.getElementById('totalCount').textContent = total;
+        document.getElementById('pendingCount').textContent = pending;
+        document.getElementById('doneCount').textContent = done;
+    }
+
+    function render() {
+        list.innerHTML = '';
+        const filteredTasks = tasks.filter(t => filter === 'all' || t.status === filter);
+
+        if (filteredTasks.length === 0) {
+            emptyMessage.classList.remove('d-none');
+        } else {
+            emptyMessage.classList.add('d-none');
+        }
+
+        filteredTasks.forEach((task, i) => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+            if (task.status === 'done') {
+                li.classList.add('list-group-item-success');
+            }
+
+            const span = document.createElement('span');
+            span.textContent = task.title;
+            span.style.cursor = 'pointer';
+            span.onclick = () => toggle(i);
+
+            if (task.status === 'done') {
+                span.style.textDecoration = 'line-through';
+                span.style.opacity = '0.6';
+            }
+
+            const del = document.createElement('button');
+            del.className = 'btn btn-sm btn-outline-danger';
+            del.innerHTML = '<i class="bx bx-trash"></i>';
+            del.setAttribute('aria-label', 'Gorevi sil');
+            del.onclick = () => remove(i);
+
+            li.appendChild(span);
+            li.appendChild(del);
+            list.appendChild(li);
+        });
+
+        updateStats();
+    }
+
+    function add() {
+        if (!input.value.trim()) return;
+        tasks.push({ title: input.value, status: 'todo' });
+        input.value = '';
+        save();
+        render();
+    }
+
+    function toggle(i) {
+        const realIndex = getRealIndex(i);
+        tasks[realIndex].status = tasks[realIndex].status === 'todo' ? 'done' : 'todo';
+        save();
+        render();
+    }
+
+    function remove(i) {
+        const realIndex = getRealIndex(i);
+        tasks.splice(realIndex, 1);
+        save();
+        render();
+    }
+
+    function getRealIndex(filteredIndex) {
+        const filteredTasks = tasks.filter(t => filter === 'all' || t.status === filter);
+        const task = filteredTasks[filteredIndex];
+        return tasks.indexOf(task);
+    }
+
+    function setFilter(f) {
+        filter = f;
+        filterButtons.forEach(btn => {
+            const isActive = btn.dataset.filter === f;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive);
+        });
+        render();
+    }
+
+    // Event Listeners
+    addBtn.onclick = add;
+    input.onkeypress = e => e.key === 'Enter' && add();
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+    });
+
+    // Ilk render
+    render();
+</script>
+}

@@ -1,0 +1,230 @@
+@{
+    ViewData["Title"] = "Trafik Malzemeleri Katalogu";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">API Entegrasyonlari /</span> Trafik Malzemeleri Katalogu
+</h4>
+
+<!-- Baslik -->
+<div class="card bg-warning mb-4">
+    <div class="card-body text-center py-4">
+        <h2 class="mb-1">
+            <i class="bx bx-traffic-cone text-dark me-2"></i>
+            Trafik Malzemeleri Katalogu
+        </h2>
+        <p class="text-dark mb-0">Yol guvenligi icin profesyonel cozumler</p>
+    </div>
+</div>
+
+<!-- Filtreler -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-4 mb-3 mb-md-0">
+                <label class="form-label">Kategori</label>
+                <select class="form-select" id="categoryFilter" onchange="filterProducts()">
+                    <option value="">Tum Kategoriler</option>
+                    <option value="koni">Trafik Konisi</option>
+                    <option value="levha">Uyari Levhasi</option>
+                    <option value="bariyer">Bariyer</option>
+                    <option value="diger">Diger</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3 mb-md-0">
+                <label class="form-label">Siralama</label>
+                <select class="form-select" id="sortFilter" onchange="filterProducts()">
+                    <option value="name">Ada Gore</option>
+                    <option value="price-asc">Fiyat (Dusukten Yuksege)</option>
+                    <option value="price-desc">Fiyat (Yuksekten Dusuge)</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Arama</label>
+                <input type="text" class="form-control" id="searchFilter"
+                       placeholder="Urun ara..." oninput="filterProducts()">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Urunler -->
+<div class="row" id="productsContainer">
+    <!-- JavaScript ile doldurulacak -->
+</div>
+
+<!-- Sonuc Sayisi -->
+<div class="text-center text-muted mb-4">
+    <span id="resultCount">0</span> urun listeleniyor
+</div>
+
+@section PageScripts {
+<script>
+    // Urun verileri
+    const products = [
+        {
+            id: 1,
+            name: 'Trafik Konisi',
+            category: 'koni',
+            description: 'Dayanikli PVC malzeme, gece gorunurlugu yuksek.',
+            price: 120,
+            image: 'https://via.placeholder.com/400x300/ffcc00/333?text=Trafik+Konisi',
+            features: ['50cm yukseklik', 'Reflektif bant', 'UV dayanikli']
+        },
+        {
+            id: 2,
+            name: 'Uyari Levhasi',
+            category: 'levha',
+            description: 'Yol calismasi ve tehlike alanlari icin idealdir.',
+            price: 250,
+            image: 'https://via.placeholder.com/400x300/ff6b6b/fff?text=Uyari+Levhasi',
+            features: ['Aluminyum govde', 'Reflektif yuzey', 'Kolay montaj']
+        },
+        {
+            id: 3,
+            name: 'Kaucuk Hiz Kesici',
+            category: 'bariyer',
+            description: 'Otopark ve site girisleri icin guvenli cozum.',
+            price: 900,
+            image: 'https://via.placeholder.com/400x300/4ecdc4/fff?text=Hiz+Kesici',
+            features: ['Kaucuk malzeme', '50cm uzunluk', 'Sari-siyah renk']
+        },
+        {
+            id: 4,
+            name: 'Delinator',
+            category: 'diger',
+            description: 'Esnek yapi, carpma sonrasi eski haline doner.',
+            price: 180,
+            image: 'https://via.placeholder.com/400x300/a8e6cf/333?text=Delinator',
+            features: ['75cm yukseklik', 'Esnek PU malzeme', 'Reflektif']
+        },
+        {
+            id: 5,
+            name: 'Plastik Bariyer',
+            category: 'bariyer',
+            description: 'Yol calismasi ve etkinlik alanlari icin ideal.',
+            price: 450,
+            image: 'https://via.placeholder.com/400x300/ff8c42/fff?text=Plastik+Bariyer',
+            features: ['Su ile doldurulabilir', '100cm yukseklik', 'Tasinabilir']
+        },
+        {
+            id: 6,
+            name: 'Mini Koni',
+            category: 'koni',
+            description: 'Ic mekan ve otopark icin ideal kucuk koni.',
+            price: 45,
+            image: 'https://via.placeholder.com/400x300/ffcc00/333?text=Mini+Koni',
+            features: ['30cm yukseklik', 'Hafif', 'Istiflenebilir']
+        },
+        {
+            id: 7,
+            name: 'Yol Calismasi Levhasi',
+            category: 'levha',
+            description: 'Gecici yol calismalari icin uyari levhasi.',
+            price: 320,
+            image: 'https://via.placeholder.com/400x300/ff6b6b/fff?text=Yol+Calismasi',
+            features: ['Katlanabilir', 'Standlı', 'Reflektif']
+        },
+        {
+            id: 8,
+            name: 'Otopark Stoper',
+            category: 'diger',
+            description: 'Arac park yeri sinirlandirma stoperi.',
+            price: 85,
+            image: 'https://via.placeholder.com/400x300/2c3e50/fff?text=Otopark+Stoper',
+            features: ['Kaucuk malzeme', '55cm uzunluk', 'Sari bant']
+        }
+    ];
+
+    function filterProducts() {
+        const category = document.getElementById('categoryFilter').value;
+        const sort = document.getElementById('sortFilter').value;
+        const search = document.getElementById('searchFilter').value.toLowerCase();
+
+        let filtered = products.filter(p => {
+            const matchCategory = !category || p.category === category;
+            const matchSearch = !search || p.name.toLowerCase().includes(search) ||
+                               p.description.toLowerCase().includes(search);
+            return matchCategory && matchSearch;
+        });
+
+        // Siralama
+        switch (sort) {
+            case 'price-asc':
+                filtered.sort((a, b) => a.price - b.price);
+                break;
+            case 'price-desc':
+                filtered.sort((a, b) => b.price - a.price);
+                break;
+            default:
+                filtered.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+        }
+
+        renderProducts(filtered);
+    }
+
+    function renderProducts(items) {
+        const container = document.getElementById('productsContainer');
+        document.getElementById('resultCount').textContent = items.length;
+
+        if (items.length === 0) {
+            container.innerHTML = `
+                <div class="col-12 text-center py-5">
+                    <i class="bx bx-search-alt bx-lg text-muted"></i>
+                    <p class="text-muted mt-2">Urun bulunamadi</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = items.map(p => `
+            <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
+                <article class="card h-100 product-card">
+                    <img src="${p.image}" class="card-img-top" alt="${p.name}" loading="lazy"
+                         style="height: 180px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">${p.name}</h5>
+                        <p class="card-text text-muted small">${p.description}</p>
+                        <ul class="list-unstyled small mb-3">
+                            ${p.features.map(f => `<li><i class="bx bx-check text-success me-1"></i>${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                        <span class="h5 mb-0 text-danger" aria-label="Fiyat: ${p.price} Turk Lirasi">
+                            ${p.price.toLocaleString('tr-TR')} TL
+                        </span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="addToCart(${p.id})">
+                            <i class="bx bx-cart-add"></i>
+                        </button>
+                    </div>
+                </article>
+            </div>
+        `).join('');
+    }
+
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            // Demo: Toast goster
+            const toast = document.createElement('div');
+            toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success';
+            toast.innerHTML = `<i class="bx bx-check me-1"></i> ${product.name} sepete eklendi!`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+    }
+
+    // Sayfa yuklendiginde urunleri goster
+    filterProducts();
+</script>
+
+<style>
+    .product-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+</style>
+}

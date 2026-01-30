@@ -1,0 +1,158 @@
+@{
+    ViewData["Title"] = "Ipucu Arayuzu";
+}
+
+<h4 class="py-3 mb-4">
+    <span class="text-muted fw-light">UI Bilesenleri /</span> Ipucu Arayuzu (Tooltip)
+</h4>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bx bx-message-square-detail text-primary me-2"></i>Tooltip Ornekleri
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6>Temel Tooltip</h6>
+                <p class="text-muted mb-4">
+                    Tooltip'ler kullanicilara ek bilgi saglamak icin kullanilir.
+                    Ust, alt, sol ve sag yonlerde konumlandirilabilir.
+                </p>
+
+                <!-- Tooltip Yonleri -->
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Ust tooltip">
+                        Ust
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Alt tooltip">
+                        Alt
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+                            data-bs-placement="left" title="Sol tooltip">
+                        Sol
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+                            data-bs-placement="right" title="Sag tooltip">
+                        Sag
+                    </button>
+                </div>
+
+                <hr>
+
+                <!-- Ikon Navigasyon -->
+                <h6 class="mt-4">Ikon Navigasyonu ile Tooltip</h6>
+                <p class="text-muted mb-4">
+                    Navigasyon ikonlarina tooltip ekleyerek kullanicilara yardimci olabilirsiniz.
+                </p>
+
+                <div class="d-flex gap-3 p-3 bg-light rounded">
+                    <a href="#" class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" title="Ana Sayfa">
+                        <i class="bx bx-home"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" title="Projeler">
+                        <i class="bx bx-folder"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" title="Iletisim">
+                        <i class="bx bx-phone"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" title="Ayarlar">
+                        <i class="bx bx-cog"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" title="Profil">
+                        <i class="bx bx-user"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-outline-danger" data-bs-toggle="tooltip" title="Cikis Yap">
+                        <i class="bx bx-log-out"></i>
+                    </a>
+                </div>
+
+                <hr>
+
+                <!-- HTML Icerikli Tooltip -->
+                <h6 class="mt-4">HTML Icerikli Tooltip</h6>
+                <p class="text-muted mb-4">
+                    Tooltip'lere HTML icerigi eklenebilir.
+                </p>
+
+                <button type="button" class="btn btn-info" data-bs-toggle="tooltip"
+                        data-bs-html="true"
+                        title="<em>Kalin</em> ve <strong>italik</strong> metin">
+                    HTML Icerikli
+                </button>
+
+                <hr>
+
+                <!-- Tetikleme Yontemleri -->
+                <h6 class="mt-4">Tetikleme Yontemleri</h6>
+                <p class="text-muted mb-4">
+                    Tooltip'ler farkli sekillerde tetiklenebilir.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover" title="Hover ile tetiklenir">
+                        Hover
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+                            data-bs-trigger="focus" title="Focus ile tetiklenir">
+                        Focus
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+                            data-bs-trigger="click" title="Click ile tetiklenir">
+                        Click
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popover Ornekleri -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Popover Ornekleri</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    Popover'lar tooltip'lere benzer ancak daha fazla icerik barindirir.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover"
+                            data-bs-placement="top" title="Baslik"
+                            data-bs-content="Bu bir popover icerigidir. Daha fazla bilgi icin tiklayiniz.">
+                        Popover Goster
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-success" data-bs-toggle="popover"
+                            data-bs-placement="right" title="Bilgi"
+                            data-bs-content="Sag tarafta acilan popover ornegi.">
+                        Sag Popover
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section PageScripts {
+<script>
+    // Tooltip'leri etkinlestir
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // Popover'lari etkinlestir
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    });
+</script>
+}

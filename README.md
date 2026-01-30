@@ -12,8 +12,8 @@
 
 ---
 
-<a id="turkçe"></a> ## Türkçe
-
+## Türkçe
+<a id="turkçe"></a> 
 ### Proje Hakkında
 
 Bu çalışma, **bulud.de** web developer iş başvurum sürecinde tarafıma özel hazırlanmış, **22 interaktif bileşeni** ve profesyonel portfolyomu içeren bir **ASP.NET Core MVC** tabanlı web uygulamasıdır. Projem; **erişilebilirlik (WCAG 2.1)**, **responsive tasarım** ve **temiz kod mimarisi** prensipleriyle, istenildiği takdirde modern e-ticaret ve web uygulamalarının genel ihtiyaçlarına yönelik analizlere göre ölçeklenebilir yapıdadır. Böylece kurumsal ya da bireysel beklentiler için istenen çözümler, hızlı ve etkili bir şekilde oluşturulmaktadır.

@@ -16,7 +16,9 @@
 
 ### Proje Hakkında
 
-Bu çalışma, **bulud.de** başvuru süreci için özel olarak hazırlanmış, **22 interaktif bileşeni** ve profesyonel portfolyomu içeren bir **ASP.NET Core MVC** uygulamasıdır. Proje; **erişilebilirlik (WCAG 2.1)**, **responsive tasarım** ve **temiz kod mimarisi** prensipleriyle, modern e-ticaret ve web uygulaması ihtiyaçlarına yönelik ölçeklenebilir çözümler sunar.
+Bu çalışma, **bulud.de** web developer iş başvurum sürecinde tarafıma özel hazırlanmış, **22 interaktif bileşeni** ve profesyonel portfolyomu içeren bir **ASP.NET Core MVC** tabanlı web uygulamasıdır. Projem; **erişilebilirlik (WCAG 2.1)**, **responsive tasarım** ve **temiz kod mimarisi** prensipleriyle, istenildiği takdirde modern e-ticaret ve web uygulamalarının genel ihtiyaçlarına yönelik analizlere göre ölçeklenebilir yapıdadır. Böylece kurumsal ya da bireysel beklentiler için istenen çözümler, hızlı ve etkili bir şekilde oluşturulmaktadır.
+
+Projemdeki iş parçacıklarını geliştirmemde, web tasarım bilgilerimi günümüzde giderek önem kazanan AI apps prompt engineering ile birleştirmemde katkı sağlayan, desteğini ne zaman istesem esirgemeyen değerli hocam Ufuk Bey'e, en önemlisi de iş başvurusu sürecimde Jr. seviye birisi olmama rağmen sabrını her zaman koruyan, aslında bir nevi hocam diyebileceğim Enes Can Ak Bey'e de teşekkürlerimi sunarım.
 
 ### Teknoloji Yığını
 
@@ -82,7 +84,7 @@ dotnet run
 - LocalStorage ile veri kalıcılığı
 - GitHub ve Reddit API entegrasyonları
 
-**bulud.de Web Developer Aday Projesi - Ayla Şentürk (Katkı sağlayan: Enes Can Atak)**
+**bulud.de Web Developer Aday Projesi - Ayla Şentürk (Katkı sağlayan: Enes Can Ak)**
 
 ---
 
@@ -90,7 +92,9 @@ dotnet run
 
 ### About This Project
 
-This repository is an **ASP.NET Core MVC** application featuring **22 interactive components** and a professional portfolio, specifically developed for the **bulud.de** application process. It emphasizes **accessibility (WCAG 2.1)**, **responsive design**, and **clean code architecture**, providing scalable solutions for modern e-commerce and web platforms.
+This project is an **ASP.NET Core MVC** web application specifically prepared for my **bulud.de** web developer job application, featuring **22 interactive components** and my professional portfolio. My project follows the principles of **accessibility (WCAG 2.1)**, **responsive design**, and **clean code architecture**, and is designed to be scalable according to the general needs of modern e-commerce and web applications when required. Thus, desired solutions for corporate or individual expectations can be created quickly and effectively.
+
+I would like to express my gratitude to my dear mentor Ufuk Bey, who contributed to developing my project components and combining my web design knowledge with AI apps prompt engineering, which is becoming increasingly important today, and who never withheld his support whenever I needed it. Most importantly, I would also like to thank Enes Can Ak Bey, who always maintained his patience during my job application process despite me being a junior-level candidate, and whom I can actually call a mentor of mine.
 
 ### Technology Stack
 
@@ -156,7 +160,7 @@ dotnet run
 - Data persistence with LocalStorage
 - GitHub and Reddit API integrations
 
-**Web Developer Candidate Project for bulud.de - Ayla Şentürk (Contributed by Enes Can Atak)**
+**Web Developer Candidate Project for bulud.de - Ayla Şentürk (Contributed by Enes Can Ak)**
 
 ---
 
@@ -164,7 +168,9 @@ dotnet run
 
 ### Über dieses Projekt
 
-Dieses Repository ist eine **ASP.NET Core MVC**-Anwendung mit **22 interaktiven Komponenten** und einem professionellen Portfolio, das speziell für den Bewerbungsprozess bei **bulud.de** erstellt wurde. Der Fokus liegt auf **Barrierefreiheit (WCAG 2.1)**, **Responsive Design** und **sauberer Code-Architektur**, um skalierbare Lösungen für moderne E-Commerce-Plattformen zu bieten.
+Dieses Projekt ist eine **ASP.NET Core MVC**-Webanwendung, die speziell für meine **bulud.de** Web-Developer-Bewerbung erstellt wurde und **22 interaktive Komponenten** sowie mein professionelles Portfolio enthält. Mein Projekt folgt den Prinzipien der **Barrierefreiheit (WCAG 2.1)**, des **Responsive Designs** und der **sauberen Code-Architektur** und ist bei Bedarf entsprechend den allgemeinen Anforderungen moderner E-Commerce- und Webanwendungen skalierbar. So können gewünschte Lösungen für unternehmerische oder individuelle Erwartungen schnell und effektiv erstellt werden.
+
+Ich möchte meinem geschätzten Mentor Ufuk Bey meinen Dank aussprechen, der zur Entwicklung meiner Projektkomponenten beigetragen und mir geholfen hat, mein Webdesign-Wissen mit AI Apps Prompt Engineering zu verbinden, das heutzutage immer wichtiger wird, und der mir seine Unterstützung nie verwehrt hat, wann immer ich sie brauchte. Vor allem möchte ich auch Enes Can Ak Bey danken, der während meines Bewerbungsprozesses trotz meines Junior-Levels stets Geduld bewahrt hat und den ich eigentlich als meinen Mentor bezeichnen kann.
 
 ### Technologie-Stack
 
@@ -230,7 +236,7 @@ dotnet run
 - Datenpersistenz mit LocalStorage
 - GitHub- und Reddit-API-Integrationen
 
-**Web-Developer-Bewerbungsprojekt für bulud.de - Ayla Şentürk (Mitwirkung: Enes Can Atak)**
+**Web-Developer-Bewerbungsprojekt für bulud.de - Ayla Şentürk (Mitwirkung: Enes Can Ak)**
 
 ---
 

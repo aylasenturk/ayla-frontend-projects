@@ -8,10 +8,10 @@
 <a id="lang"></a>
 ## Dil Seçimi / Language / Sprache
 
-[Türkçe](#turkçe) | [English](#english) | [Deutsch](#deutsch)
+[English](#english) | [Deutsch](#deutsch)
 
 ---
-<a id="turkce"></a>
+
 ## Türkçe
 
 ### Proje Hakkında

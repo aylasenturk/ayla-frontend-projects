@@ -11,4 +11,5 @@ public class PagesController : Controller
   public IActionResult AccountSettingsNotifications() => View();
   public IActionResult MiscError() => View();
   public IActionResult MiscUnderMaintenance() => View();
+  public IActionResult ProfileUser() => RedirectToAction("Resume", "Portfolio");
 }

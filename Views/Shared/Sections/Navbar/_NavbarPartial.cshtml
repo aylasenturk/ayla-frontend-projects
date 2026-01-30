@@ -53,21 +53,21 @@
     <li class="nav-item navbar-dropdown dropdown-user dropdown">
       <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
-          <img src="~/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+          <img src="~/img/avatars/ayla_senturk.png" alt="Ayla Senturk" class="w-px-40 h-auto rounded-circle" />
         </div>
       </a>
       <ul class="dropdown-menu dropdown-menu-end">
         <li>
-          <a class="dropdown-item" href="javascript:void(0);">
+          <a class="dropdown-item" asp-controller="Portfolio" asp-action="Resume">
             <div class="d-flex">
               <div class="flex-shrink-0 me-3">
                 <div class="avatar avatar-online">
-                  <img src="~/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                  <img src="~/img/avatars/ayla_senturk.png" alt="Ayla Senturk" class="w-px-40 h-auto rounded-circle" />
                 </div>
               </div>
               <div class="flex-grow-1">
-                <h6 class="mb-0">John Doe</h6>
-                <small class="text-body-secondary">Admin</small>
+                <h6 class="mb-0">Ayla Senturk</h6>
+                <small class="text-body-secondary">Web Gelistirici</small>
               </div>
             </div>
           </a>
@@ -76,16 +76,15 @@
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" asp-controller="Pages" asp-action="ProfileUser"> <i class="icon-base bx bx-user icon-md me-3"></i><span>My Profile</span> </a>
+          <a class="dropdown-item" asp-controller="Portfolio" asp-action="Resume"> <i class="icon-base bx bx-user icon-md me-3"></i><span>Ozgecmis</span> </a>
         </li>
         <li>
-          <a class="dropdown-item" asp-controller="Pages" asp-action="AccountSettings"> <i class="icon-base bx bx-cog icon-md me-3"></i><span>Settings</span> </a>
+          <a class="dropdown-item" asp-controller="Portfolio" asp-action="Contact"> <i class="icon-base bx bx-envelope icon-md me-3"></i><span>Iletisim</span> </a>
         </li>
         <li>
-          <a class="dropdown-item" href="javascript:void(0);">
+          <a class="dropdown-item" asp-controller="Portfolio" asp-action="Projects">
             <span class="d-flex align-items-center align-middle">
-              <i class="flex-shrink-0 icon-base bx bx-credit-card icon-md me-3"></i><span class="flex-grow-1 align-middle">Billing Plan</span>
-              <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
+              <i class="flex-shrink-0 icon-base bx bx-folder icon-md me-3"></i><span class="flex-grow-1 align-middle">Projeler</span>
             </span>
           </a>
         </li>
@@ -93,7 +92,7 @@
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="javascript:void(0);"> <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span> </a>
+          <a class="dropdown-item" asp-controller="Portfolio" asp-action="Index"> <i class="icon-base bx bx-home icon-md me-3"></i><span>Ana Sayfa</span> </a>
         </li>
       </ul>
     </li>

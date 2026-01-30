@@ -8,11 +8,11 @@
 
 ## Dil Seçimi / Language / Sprache
 
-[Türkçe](#-türkçe) | [English](#-english) | [Deutsch](#-deutsch)
+[Türkçe](#turkçe) | [English](#-english) | [Deutsch](#-deutsch)
 
 ---
 
-## Türkçe
+<a id="turkçe"></a> ## Türkçe
 
 ### Proje Hakkında
 

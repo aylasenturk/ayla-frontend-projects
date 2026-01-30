@@ -5,7 +5,7 @@
 ![Accessibility](https://img.shields.io/badge/a11y-WCAG_2.1-green?style=for-the-badge)
 
 ---
-
+<a id="lang"></a>
 ## Dil Seçimi / Language / Sprache
 
 [Türkçe](#turkçe) | [English](#english) | [Deutsch](#deutsch)
@@ -13,7 +13,7 @@
 ---
 <a id="turkce"></a>
 ## Türkçe
- 
+
 ### Proje Hakkında
 
 Bu çalışma, **bulud.de** web developer iş başvurum sürecinde tarafıma özel hazırlanmış, **22 interaktif bileşeni** ve profesyonel portfolyomu içeren bir **ASP.NET Core MVC** tabanlı web uygulamasıdır. Projem; **erişilebilirlik (WCAG 2.1)**, **responsive tasarım** ve **temiz kod mimarisi** prensipleriyle, istenildiği takdirde modern e-ticaret ve web uygulamalarının genel ihtiyaçlarına yönelik analizlere göre ölçeklenebilir yapıdadır. Böylece kurumsal ya da bireysel beklentiler için istenen çözümler, hızlı ve etkili bir şekilde oluşturulmaktadır.
@@ -89,7 +89,7 @@ dotnet run
 ---
 <a id="english"></a>
 ## English
-
+[Choose Other Languages](#lang)
 ### About This Project
 
 This project is an **ASP.NET Core MVC** web application specifically prepared for my **bulud.de** web developer job application, featuring **22 interactive components** and my professional portfolio. My project follows the principles of **accessibility (WCAG 2.1)**, **responsive design**, and **clean code architecture**, and is designed to be scalable according to the general needs of modern e-commerce and web applications when required. Thus, desired solutions for corporate or individual expectations can be created quickly and effectively.
@@ -165,7 +165,7 @@ dotnet run
 ---
 <a id="deutsch"></a>
 ## Deutsch
-
+[Andere Sprachen auswählen](#lang)
 ### Über dieses Projekt
 
 Dieses Projekt ist eine **ASP.NET Core MVC**-Webanwendung, die speziell für meine **bulud.de** Web-Developer-Bewerbung erstellt wurde und **22 interaktive Komponenten** sowie mein professionelles Portfolio enthält. Mein Projekt folgt den Prinzipien der **Barrierefreiheit (WCAG 2.1)**, des **Responsive Designs** und der **sauberen Code-Architektur** und ist bei Bedarf entsprechend den allgemeinen Anforderungen moderner E-Commerce- und Webanwendungen skalierbar. So können gewünschte Lösungen für unternehmerische oder individuelle Erwartungen schnell und effektiv erstellt werden.
